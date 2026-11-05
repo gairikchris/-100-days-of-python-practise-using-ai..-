@@ -9166,214 +9166,288 @@
 
 # 139 of #100 days of python practise using ai.. 
 
+# # q1 programme - 
+
+# class PositiveValue:
+#     def __set_name__(self, owner, name):
+#         self.public_name = name
+#         self.private_name = f"_{name}"
+
+#     def __get__(self, obj, objtype=None):
+#         if obj is None:
+#             return self
+#         return getattr(obj, self.private_name)
+
+#     def __set__(self, obj, value):
+#         # Reject Boolean - bool is subclass of int in Python
+#         if isinstance(value, bool):
+#             raise TypeError(f"{self.public_name} must be int or float, not bool")
+
+#         if not isinstance(value, (int, float)):
+#             raise TypeError(f"{self.public_name} must be int or float")
+
+#         if value <= 0:
+#             raise ValueError(f"{self.public_name} must be > 0")
+
+#         setattr(obj, self.private_name, value)
+
+# class InventoryItem:
+#     price = PositiveValue()
+#     quantity = PositiveValue()
+
+#     def __init__(self, name, price, quantity):
+#         self.name = name
+#         self.price = price       # goes through descriptor
+#         self.quantity = quantity # goes through descriptor
+
+#     @property
+#     def total_value(self):
+#         return self.price * self.quantity
+
+#     def restock(self, amount):
+#         if isinstance(amount, bool) or not isinstance(amount, (int, float)):
+#             raise TypeError("restock amount must be int or float")
+#         if amount <= 0:
+#             raise ValueError("restock amount must be > 0")
+#         self.quantity = self.quantity + amount
+
+#     def sell(self, amount):
+#         if isinstance(amount, bool) or not isinstance(amount, (int, float)):
+#             raise TypeError("sell amount must be int or float")
+#         if amount <= 0:
+#             raise ValueError("sell amount must be > 0")
+#         if amount > self.quantity:
+#             raise ValueError(f"Cannot sell {amount}. Only {self.quantity} in stock.")
+#         self.quantity = self.quantity - amount
+
+#     def __str__(self):
+#         return (f"Item: {self.name} | "
+#                 f"Price: {self.price} | "
+#                 f"Quantity: {self.quantity} | "
+#                 f"Total Value: {self.total_value}")
+
+# # --- Test ---
+# item = InventoryItem("Laptop", 50000, 10)
+# print(item)
+# print()
+
+# item.restock(5)
+# print("After restock:", item)
+
+# item.sell(3)
+# print("After sell:", item)
+# print()
+
+# # Validation tests - all should raise
+# try:
+#     item.price = -100
+# except Exception as e:
+#     print(f"price = -100 -> {type(e).__name__}: {e}")
+
+# try:
+#     item.quantity = True
+# except Exception as e:
+#     print(f"quantity = True -> {type(e).__name__}: {e}")
+
+# try:
+#     item.sell(100)
+# except Exception as e:
+#     print(f"sell(100) -> {type(e).__name__}: {e}")
+
+# try:
+#     bad = InventoryItem("Mouse", 0, 5)
+# except Exception as e:
+#     print(f"InventoryItem(..., 0, 5) -> {type(e).__name__}: {e}")
+
+
+
+#     # q2 programme - 
+
+#     class Event:
+       
+#        def __init__(self, event_name, capacity, registered=0):
+#         self.event_name = event_name
+#         self._capacity = None
+#         self._registered = None
+#         self.capacity = capacity
+#         self.registered = registered
+
+#     @property
+#     def capacity(self):
+#         return self._capacity
+
+#     @capacity.setter
+#     def capacity(self, value):
+#         if isinstance(value, bool) or not isinstance(value, int):
+#             raise TypeError("capacity must be an integer, not bool")
+#         if value <= 0:
+#             raise ValueError("capacity must be positive")
+#         if self._registered is not None and value < self._registered:
+#             raise ValueError("capacity cannot be less than registered")
+#         self._capacity = value
+
+#     @property
+#     def registered(self):
+#         return self._registered
+
+#     @registered.setter
+#     def registered(self, value):
+#         if isinstance(value, bool) or not isinstance(value, int):
+#             raise TypeError("registered must be an integer, not bool")
+#         if value < 0:
+#             raise ValueError("registered cannot be negative")
+#         if self._capacity is not None and value > self._capacity:
+#             raise ValueError("registered cannot exceed capacity")
+#         self._registered = value
+
+#     def register(self, count):
+#         if isinstance(count, bool) or not isinstance(count, int):
+#             raise TypeError("register count must be an integer")
+#         if count <= 0:
+#             raise ValueError("register count must be positive")
+#         if self._registered + count > self._capacity:
+#             raise ValueError(f"Only {self.available_seats()} seats available")
+#         self._registered += count
+
+#     def cancel(self, count):
+#         if isinstance(count, bool) or not isinstance(count, int):
+#             raise TypeError("cancel count must be an integer")
+#         if count <= 0:
+#             raise ValueError("cancel count must be positive")
+#         if count > self._registered:
+#             raise ValueError(f"Only {self._registered} registered")
+#         self._registered -= count
+
+#     def available_seats(self):
+#         return self._capacity - self._registered
+
+#     def event_details(self):
+#         return f"Event: {self.event_name}"
+
+#     def __add__(self, other):
+#         if not isinstance(other, Event):
+#             return NotImplemented
+#         return self.registered + other.registered
+
+#     def __gt__(self, other):
+#         if not isinstance(other, Event):
+#             return NotImplemented
+#         return self.registered > other.registered
+
+#     def __len__(self):
+#         return self._registered
+
+#     def __str__(self):
+#         return (f"{self.event_details()} | Capacity: {self._capacity} | "
+#                 f"Registered: {self._registered} | Available: {self.available_seats()}")
+
+# class OnlineEvent(Event):
+#     def __init__(self, event_name, capacity, meeting_platform, registered=0):
+#         super().__init__(event_name, capacity, registered)
+#         self.meeting_platform = meeting_platform
+
+#     def event_details(self):
+#         return f"Online Event: {self.event_name} on {self.meeting_platform}"
+
+# class OfflineEvent(Event):
+#     def __init__(self, event_name, capacity, venue, registered=0):
+#         super().__init__(event_name, capacity, registered)
+#         self.venue = venue
+
+#     def event_details(self):
+#         return f"Offline Event: {self.event_name} at {self.venue}"
+
+# # Test - this part will NOT crash
+# e1 = OnlineEvent("Python Workshop", 100, "Zoom", 40)
+# e2 = OfflineEvent("Tech Meetup", 50, "Kolkata Hall", 30)
+
+# print(e1)
+# print(e2)
+# print()
+
+# e1.register(10)
+# e2.cancel(5)
+# print(e1)
+# print(e2)
+# print()
+
+# print(f"e1 + e2 = {e1 + e2}")
+# print(f"e1 > e2 = {e1 > e2}")
+# print(f"len(e1) = {len(e1)}")
+# print(f"Available in e1: {e1.available_seats()}")
+    
+    
+# Day #140 of #100 days of python practise using ai.. 
+
 # q1 programme - 
 
-class PositiveValue:
-    def __set_name__(self, owner, name):
-        self.public_name = name
-        self.private_name = f"_{name}"
-
-    def __get__(self, obj, objtype=None):
-        if obj is None:
-            return self
-        return getattr(obj, self.private_name)
-
-    def __set__(self, obj, value):
-        # Reject Boolean - bool is subclass of int in Python
-        if isinstance(value, bool):
-            raise TypeError(f"{self.public_name} must be int or float, not bool")
-
-        if not isinstance(value, (int, float)):
-            raise TypeError(f"{self.public_name} must be int or float")
-
-        if value <= 0:
-            raise ValueError(f"{self.public_name} must be > 0")
-
-        setattr(obj, self.private_name, value)
-
-class InventoryItem:
-    price = PositiveValue()
-    quantity = PositiveValue()
-
+class Product:
     def __init__(self, name, price, quantity):
         self.name = name
-        self.price = price       # goes through descriptor
-        self.quantity = quantity # goes through descriptor
+        self.price = price
+        self.quantity = quantity
 
     @property
+    def price(self):
+        return self._price
+
+    @price.setter
+    def price(self, value):
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or value <= 0:
+            raise ValueError("Price must be a positive number.")
+        self._price = value
+
+    @property
+    def quantity(self):
+        return self._quantity
+
+    @quantity.setter
+    def quantity(self, value):
+        if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+            raise ValueError("Quantity must be a non-negative integer.")
+        self._quantity = value
+
     def total_value(self):
         return self.price * self.quantity
 
-    def restock(self, amount):
-        if isinstance(amount, bool) or not isinstance(amount, (int, float)):
-            raise TypeError("restock amount must be int or float")
-        if amount <= 0:
-            raise ValueError("restock amount must be > 0")
-        self.quantity = self.quantity + amount
-
-    def sell(self, amount):
-        if isinstance(amount, bool) or not isinstance(amount, (int, float)):
-            raise TypeError("sell amount must be int or float")
-        if amount <= 0:
-            raise ValueError("sell amount must be > 0")
-        if amount > self.quantity:
-            raise ValueError(f"Cannot sell {amount}. Only {self.quantity} in stock.")
-        self.quantity = self.quantity - amount
-
-    def __str__(self):
-        return (f"Item: {self.name} | "
-                f"Price: {self.price} | "
-                f"Quantity: {self.quantity} | "
-                f"Total Value: {self.total_value}")
-
-# --- Test ---
-item = InventoryItem("Laptop", 50000, 10)
-print(item)
-print()
-
-item.restock(5)
-print("After restock:", item)
-
-item.sell(3)
-print("After sell:", item)
-print()
-
-# Validation tests - all should raise
-try:
-    item.price = -100
-except Exception as e:
-    print(f"price = -100 -> {type(e).__name__}: {e}")
-
-try:
-    item.quantity = True
-except Exception as e:
-    print(f"quantity = True -> {type(e).__name__}: {e}")
-
-try:
-    item.sell(100)
-except Exception as e:
-    print(f"sell(100) -> {type(e).__name__}: {e}")
-
-try:
-    bad = InventoryItem("Mouse", 0, 5)
-except Exception as e:
-    print(f"InventoryItem(..., 0, 5) -> {type(e).__name__}: {e}")
+    def display(self):
+        print(f"Product: {self.name}")
+        print(f"Price: {self.price}")
+        print(f"Quantity: {self.quantity}")
+        print(f"Total Inventory Value: {self.total_value()}")
 
 
 
-    # q2 programme - 
+# q2 programme - 
 
-    class Event:
-       
-       def __init__(self, event_name, capacity, registered=0):
-        self.event_name = event_name
-        self._capacity = None
-        self._registered = None
-        self.capacity = capacity
-        self.registered = registered
+class Student:
+    def __init__(self, name, marks):
+        self.name = name
+        self.marks = marks
 
     @property
-    def capacity(self):
-        return self._capacity
+    def marks(self):
+        return self._marks
 
-    @capacity.setter
-    def capacity(self, value):
-        if isinstance(value, bool) or not isinstance(value, int):
-            raise TypeError("capacity must be an integer, not bool")
-        if value <= 0:
-            raise ValueError("capacity must be positive")
-        if self._registered is not None and value < self._registered:
-            raise ValueError("capacity cannot be less than registered")
-        self._capacity = value
+    @marks.setter
+    def marks(self, value):
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not (0 <= value <= 100):
+            raise ValueError("Marks must be a numeric value between 0 and 100.")
+        self._marks = value
 
-    @property
-    def registered(self):
-        return self._registered
+    def grade(self):
+        if 90 <= self._marks <= 100:
+            return "A"
+        elif 80 <= self._marks < 90:
+            return "B"
+        elif 70 <= self._marks < 80:
+            return "C"
+        elif 60 <= self._marks < 70:
+            return "D"
+        else:
+            return "F"
 
-    @registered.setter
-    def registered(self, value):
-        if isinstance(value, bool) or not isinstance(value, int):
-            raise TypeError("registered must be an integer, not bool")
-        if value < 0:
-            raise ValueError("registered cannot be negative")
-        if self._capacity is not None and value > self._capacity:
-            raise ValueError("registered cannot exceed capacity")
-        self._registered = value
-
-    def register(self, count):
-        if isinstance(count, bool) or not isinstance(count, int):
-            raise TypeError("register count must be an integer")
-        if count <= 0:
-            raise ValueError("register count must be positive")
-        if self._registered + count > self._capacity:
-            raise ValueError(f"Only {self.available_seats()} seats available")
-        self._registered += count
-
-    def cancel(self, count):
-        if isinstance(count, bool) or not isinstance(count, int):
-            raise TypeError("cancel count must be an integer")
-        if count <= 0:
-            raise ValueError("cancel count must be positive")
-        if count > self._registered:
-            raise ValueError(f"Only {self._registered} registered")
-        self._registered -= count
-
-    def available_seats(self):
-        return self._capacity - self._registered
-
-    def event_details(self):
-        return f"Event: {self.event_name}"
-
-    def __add__(self, other):
-        if not isinstance(other, Event):
-            return NotImplemented
-        return self.registered + other.registered
-
-    def __gt__(self, other):
-        if not isinstance(other, Event):
-            return NotImplemented
-        return self.registered > other.registered
-
-    def __len__(self):
-        return self._registered
-
-    def __str__(self):
-        return (f"{self.event_details()} | Capacity: {self._capacity} | "
-                f"Registered: {self._registered} | Available: {self.available_seats()}")
-
-class OnlineEvent(Event):
-    def __init__(self, event_name, capacity, meeting_platform, registered=0):
-        super().__init__(event_name, capacity, registered)
-        self.meeting_platform = meeting_platform
-
-    def event_details(self):
-        return f"Online Event: {self.event_name} on {self.meeting_platform}"
-
-class OfflineEvent(Event):
-    def __init__(self, event_name, capacity, venue, registered=0):
-        super().__init__(event_name, capacity, registered)
-        self.venue = venue
-
-    def event_details(self):
-        return f"Offline Event: {self.event_name} at {self.venue}"
-
-# Test - this part will NOT crash
-e1 = OnlineEvent("Python Workshop", 100, "Zoom", 40)
-e2 = OfflineEvent("Tech Meetup", 50, "Kolkata Hall", 30)
-
-print(e1)
-print(e2)
-print()
-
-e1.register(10)
-e2.cancel(5)
-print(e1)
-print(e2)
-print()
-
-print(f"e1 + e2 = {e1 + e2}")
-print(f"e1 > e2 = {e1 > e2}")
-print(f"len(e1) = {len(e1)}")
-print(f"Available in e1: {e1.available_seats()}")
-    
-    
+    def display(self):
+        print(f"Student: {self.name}")
+        print(f"Marks: {self.marks}")
+        print(f"Grade: {self.grade()}")
