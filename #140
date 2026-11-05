@@ -1,1 +1,74 @@
+# Day #140 of #100 days of python practise using ai.. 
 
+# q1 programme - 
+
+class Product:
+    def __init__(self, name, price, quantity):
+        self.name = name
+        self.price = price
+        self.quantity = quantity
+
+    @property
+    def price(self):
+        return self._price
+
+    @price.setter
+    def price(self, value):
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or value <= 0:
+            raise ValueError("Price must be a positive number.")
+        self._price = value
+
+    @property
+    def quantity(self):
+        return self._quantity
+
+    @quantity.setter
+    def quantity(self, value):
+        if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+            raise ValueError("Quantity must be a non-negative integer.")
+        self._quantity = value
+
+    def total_value(self):
+        return self.price * self.quantity
+
+    def display(self):
+        print(f"Product: {self.name}")
+        print(f"Price: {self.price}")
+        print(f"Quantity: {self.quantity}")
+        print(f"Total Inventory Value: {self.total_value()}")
+
+
+
+# q2 programme - 
+
+class Student:
+    def __init__(self, name, marks):
+        self.name = name
+        self.marks = marks
+
+    @property
+    def marks(self):
+        return self._marks
+
+    @marks.setter
+    def marks(self, value):
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not (0 <= value <= 100):
+            raise ValueError("Marks must be a numeric value between 0 and 100.")
+        self._marks = value
+
+    def grade(self):
+        if 90 <= self._marks <= 100:
+            return "A"
+        elif 80 <= self._marks < 90:
+            return "B"
+        elif 70 <= self._marks < 80:
+            return "C"
+        elif 60 <= self._marks < 70:
+            return "D"
+        else:
+            return "F"
+
+    def display(self):
+        print(f"Student: {self.name}")
+        print(f"Marks: {self.marks}")
+        print(f"Grade: {self.grade()}")
