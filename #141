@@ -1,1 +1,40 @@
+# Day #141 of #100 days of python practise using ai.. 
 
+# q1 programme - 
+
+# 1. Takes a list of integers
+numbers = [10, 15, 22, 33, 40, 57, 68, 71, 80]
+
+# 2. Creates a new list containing only the even numbers
+even_numbers = [num for num in numbers if num % 2 == 0]
+
+# 3. Calculates the sum of all even numbers
+even_sum = sum(even_numbers)
+
+# 4. Prints both the new list and its sum
+print("Even numbers list:", even_numbers)
+print("Sum of even numbers:", even_sum)
+
+
+# q2 programme - 
+
+student = {
+    "Math": 85,
+    "Physics": 92,
+    "Chemistry": 78
+}
+
+# 1. Calculate the total marks
+total_marks = sum(student.values())
+
+# 2. Calculate the average marks
+average_marks = total_marks / len(student) if student else 0
+
+# 3. Find the subject with the highest marks
+highest_subject = max(student, key=student.get)
+highest_marks = student[highest_subject]
+
+# Print the results
+print("Total Marks:", total_marks)
+print("Average Marks:", round(average_marks, 2))
+print(f"Subject with Highest Marks: {highest_subject} ({highest_marks})")
