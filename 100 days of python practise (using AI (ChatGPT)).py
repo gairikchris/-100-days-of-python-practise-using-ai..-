@@ -9379,75 +9379,117 @@
     
 # Day #140 of #100 days of python practise using ai.. 
 
+# # q1 programme - 
+
+# class Product:
+#     def __init__(self, name, price, quantity):
+#         self.name = name
+#         self.price = price
+#         self.quantity = quantity
+
+#     @property
+#     def price(self):
+#         return self._price
+
+#     @price.setter
+#     def price(self, value):
+#         if isinstance(value, bool) or not isinstance(value, (int, float)) or value <= 0:
+#             raise ValueError("Price must be a positive number.")
+#         self._price = value
+
+#     @property
+#     def quantity(self):
+#         return self._quantity
+
+#     @quantity.setter
+#     def quantity(self, value):
+#         if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+#             raise ValueError("Quantity must be a non-negative integer.")
+#         self._quantity = value
+
+#     def total_value(self):
+#         return self.price * self.quantity
+
+#     def display(self):
+#         print(f"Product: {self.name}")
+#         print(f"Price: {self.price}")
+#         print(f"Quantity: {self.quantity}")
+#         print(f"Total Inventory Value: {self.total_value()}")
+
+
+
+# # q2 programme - 
+
+# class Student:
+#     def __init__(self, name, marks):
+#         self.name = name
+#         self.marks = marks
+
+#     @property
+#     def marks(self):
+#         return self._marks
+
+#     @marks.setter
+#     def marks(self, value):
+#         if isinstance(value, bool) or not isinstance(value, (int, float)) or not (0 <= value <= 100):
+#             raise ValueError("Marks must be a numeric value between 0 and 100.")
+#         self._marks = value
+
+#     def grade(self):
+#         if 90 <= self._marks <= 100:
+#             return "A"
+#         elif 80 <= self._marks < 90:
+#             return "B"
+#         elif 70 <= self._marks < 80:
+#             return "C"
+#         elif 60 <= self._marks < 70:
+#             return "D"
+#         else:
+#             return "F"
+
+#     def display(self):
+#         print(f"Student: {self.name}")
+#         print(f"Marks: {self.marks}")
+#         print(f"Grade: {self.grade()}")
+
+
+# Day #141 of #100 days of python practise using ai.. 
+
 # q1 programme - 
 
-class Product:
-    def __init__(self, name, price, quantity):
-        self.name = name
-        self.price = price
-        self.quantity = quantity
+# 1. Takes a list of integers
+numbers = [10, 15, 22, 33, 40, 57, 68, 71, 80]
 
-    @property
-    def price(self):
-        return self._price
+# 2. Creates a new list containing only the even numbers
+even_numbers = [num for num in numbers if num % 2 == 0]
 
-    @price.setter
-    def price(self, value):
-        if isinstance(value, bool) or not isinstance(value, (int, float)) or value <= 0:
-            raise ValueError("Price must be a positive number.")
-        self._price = value
+# 3. Calculates the sum of all even numbers
+even_sum = sum(even_numbers)
 
-    @property
-    def quantity(self):
-        return self._quantity
-
-    @quantity.setter
-    def quantity(self, value):
-        if isinstance(value, bool) or not isinstance(value, int) or value < 0:
-            raise ValueError("Quantity must be a non-negative integer.")
-        self._quantity = value
-
-    def total_value(self):
-        return self.price * self.quantity
-
-    def display(self):
-        print(f"Product: {self.name}")
-        print(f"Price: {self.price}")
-        print(f"Quantity: {self.quantity}")
-        print(f"Total Inventory Value: {self.total_value()}")
-
+# 4. Prints both the new list and its sum
+print("Even numbers list:", even_numbers)
+print("Sum of even numbers:", even_sum)
 
 
 # q2 programme - 
 
-class Student:
-    def __init__(self, name, marks):
-        self.name = name
-        self.marks = marks
+student = {
+    "Math": 85,
+    "Physics": 92,
+    "Chemistry": 78
+}
 
-    @property
-    def marks(self):
-        return self._marks
+# 1. Calculate the total marks
+total_marks = sum(student.values())
 
-    @marks.setter
-    def marks(self, value):
-        if isinstance(value, bool) or not isinstance(value, (int, float)) or not (0 <= value <= 100):
-            raise ValueError("Marks must be a numeric value between 0 and 100.")
-        self._marks = value
+# 2. Calculate the average marks
+average_marks = total_marks / len(student) if student else 0
 
-    def grade(self):
-        if 90 <= self._marks <= 100:
-            return "A"
-        elif 80 <= self._marks < 90:
-            return "B"
-        elif 70 <= self._marks < 80:
-            return "C"
-        elif 60 <= self._marks < 70:
-            return "D"
-        else:
-            return "F"
+# 3. Find the subject with the highest marks
+highest_subject = max(student, key=student.get)
+highest_marks = student[highest_subject]
 
-    def display(self):
-        print(f"Student: {self.name}")
-        print(f"Marks: {self.marks}")
-        print(f"Grade: {self.grade()}")
+# Print the results
+print("Total Marks:", total_marks)
+print("Average Marks:", round(average_marks, 2))
+print(f"Subject with Highest Marks: {highest_subject} ({highest_marks})")
