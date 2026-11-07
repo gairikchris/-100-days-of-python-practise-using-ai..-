@@ -9493,3 +9493,113 @@ highest_marks = student[highest_subject]
 print("Total Marks:", total_marks)
 print("Average Marks:", round(average_marks, 2))
 print(f"Subject with Highest Marks: {highest_subject} ({highest_marks})")
+
+
+# Day #142 of #100 days of python practise using ai.. 
+
+# q1 programme - 
+
+class Product:
+    def __init__(self, name, price, quantity):
+        self.name = name
+        self.price = price       # Invokes the price setter
+        self.quantity = quantity # Invokes the quantity setter
+
+    @property
+    def price(self):
+        return self._price
+
+    @price.setter
+    def price(self, value):
+        # Explicitly check for bool first, as bool is a subclass of int in Python
+        if isinstance(value, bool):
+            raise TypeError("Price cannot be a boolean value.")
+        if not isinstance(value, (int, float)):
+            raise TypeError("Price must be a numeric value (int or float).")
+        if value < 0:
+            raise ValueError("Price cannot be negative.")
+        self._price = value
+
+    @property
+    def quantity(self):
+        return self._quantity
+
+    @quantity.setter
+    def quantity(self, value):
+        # Explicitly check for bool first
+        if isinstance(value, bool):
+            raise TypeError("Quantity cannot be a boolean value.")
+        if not isinstance(value, int):
+            raise TypeError("Quantity must be an integer.")
+        if value < 0:
+            raise ValueError("Quantity cannot be negative.")
+        self._quantity = value
+
+    def total_value(self):
+        """Calculates and returns the total inventory value."""
+        return self._price * self._quantity
+
+    def display(self):
+        """Displays all product details and its total value."""
+        print(f"Product Name : {self.name}")
+        print(f"Price        : ${self.price:.2f}")
+        print(f"Quantity     : {self.quantity}")
+        print(f"Total Value  : ${self.total_value():.2f}")
+
+
+
+
+
+# q2 programme - 
+
+        students = {
+    "Alice": [85, 90, 78],
+    "Bob": [65, 72, 80],
+    "Charlie": [92, 88, 95],
+    "David": [55, 60, 58],
+    "Emma": [78, 82, 85]
+}
+
+def analyze_students(student_data):
+    """
+    Analyzes student marks data and returns average marks per student,
+    students with an average >= 75 (using dictionary comprehension),
+    the topper, and the overall class average.
+    """
+    # 1. Calculate the average marks for every student using a dictionary comprehension
+    averages = {name: sum(marks) / len(marks) for name, marks in student_data.items()}
+    
+    # 2. Create a new dictionary containing students whose average is at least 75
+    top_students = {name: avg for name, avg in averages.items() if avg >= 75}
+    
+    # 3. Find the student with the highest average
+    highest_student = max(averages, key=averages.get) if averages else None
+    
+    # 4. Calculate the overall average of all students
+    all_averages = [avg for avg in averages.values()]
+    overall_avg = sum(all_averages) / len(all_averages) if all_averages else 0
+    
+    # Return all results without printing inside the function
+    return averages, top_students, highest_student, overall_avg
+
+# Executing the function and displaying the results outside
+student_averages, filtered_students, topper, class_average = analyze_students(students)
+
+print("--- Individual Averages ---")
+for name, avg in student_averages.items():
+    print(f"{name}: {avg:.2f}")
+
+print("\n--- Students with Average >= 75 ---")
+for name, avg in filtered_students.items():
+    print(f"{name}: {avg:.2f}")
+
+print(f"\nTop Performing Student: {topper} ({student_averages[topper]:.2f})")
+print(f"Overall Class Average: {class_average:.2f}")
+
+
+
+    
+
+
+
+
