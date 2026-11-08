@@ -1,0 +1,59 @@
+# Day #143 of #100 days of python practise using ai..
+
+# q1 programme - 
+
+class Student:
+
+  def __init__(self, name, marks):
+    self.name = name
+    self.marks = marks  # Triggers the property setter for validation
+
+  @property
+  def marks(self):
+    """Getter for student marks."""
+    return self._marks
+
+  @marks.setter
+  def marks(self, value):
+    """Setter to validate marks (rejects booleans, non-numeric values,
+
+    and values outside the 0-100 range).
+    """
+    if isinstance(value, bool):
+      raise TypeError("Marks cannot be a boolean value.")
+    if not isinstance(value, (int, float)):
+      raise TypeError("Marks must be a numeric value.")
+    if not (0 <= value <= 100):
+      raise ValueError("Marks must be between 0 and 100.")
+    self._marks = value
+
+  def display(self):
+    """Prints the student's name and marks."""
+    print(f"Student Name: {self.name}")
+    print(f"Marks: {self._marks}")
+
+
+
+    # q2 programme - 
+
+    # 1. Accept a sentence from the user
+sentence = input("Enter a sentence: ")
+
+# 2. Convert the sentence to lowercase
+sentence_lower = sentence.lower()
+
+# 3. Split it into individual words
+words = sentence_lower.split()
+
+# 4. Use a dictionary to count the frequency of each word
+word_count = {}
+for word in words:
+  word_count[word] = word_count.get(word, 0) + 1
+
+# 5. Display the resulting dictionary
+print("Word Frequency Dictionary:", word_count)
+    
+
+
+
+
