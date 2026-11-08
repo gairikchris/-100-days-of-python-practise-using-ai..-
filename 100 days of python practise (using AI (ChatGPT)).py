@@ -9453,148 +9453,207 @@
 #         print(f"Grade: {self.grade()}")
 
 
-# Day #141 of #100 days of python practise using ai.. 
+# # Day #141 of #100 days of python practise using ai.. 
 
-# q1 programme - 
+# # q1 programme - 
 
-# 1. Takes a list of integers
-numbers = [10, 15, 22, 33, 40, 57, 68, 71, 80]
+# # 1. Takes a list of integers
+# numbers = [10, 15, 22, 33, 40, 57, 68, 71, 80]
 
-# 2. Creates a new list containing only the even numbers
-even_numbers = [num for num in numbers if num % 2 == 0]
+# # 2. Creates a new list containing only the even numbers
+# even_numbers = [num for num in numbers if num % 2 == 0]
 
-# 3. Calculates the sum of all even numbers
-even_sum = sum(even_numbers)
+# # 3. Calculates the sum of all even numbers
+# even_sum = sum(even_numbers)
 
-# 4. Prints both the new list and its sum
-print("Even numbers list:", even_numbers)
-print("Sum of even numbers:", even_sum)
-
-
-# q2 programme - 
-
-student = {
-    "Math": 85,
-    "Physics": 92,
-    "Chemistry": 78
-}
-
-# 1. Calculate the total marks
-total_marks = sum(student.values())
-
-# 2. Calculate the average marks
-average_marks = total_marks / len(student) if student else 0
-
-# 3. Find the subject with the highest marks
-highest_subject = max(student, key=student.get)
-highest_marks = student[highest_subject]
-
-# Print the results
-print("Total Marks:", total_marks)
-print("Average Marks:", round(average_marks, 2))
-print(f"Subject with Highest Marks: {highest_subject} ({highest_marks})")
+# # 4. Prints both the new list and its sum
+# print("Even numbers list:", even_numbers)
+# print("Sum of even numbers:", even_sum)
 
 
-# Day #142 of #100 days of python practise using ai.. 
+# # q2 programme - 
 
-# q1 programme - 
+# student = {
+#     "Math": 85,
+#     "Physics": 92,
+#     "Chemistry": 78
+# }
 
-class Product:
-    def __init__(self, name, price, quantity):
-        self.name = name
-        self.price = price       # Invokes the price setter
-        self.quantity = quantity # Invokes the quantity setter
+# # 1. Calculate the total marks
+# total_marks = sum(student.values())
 
-    @property
-    def price(self):
-        return self._price
+# # 2. Calculate the average marks
+# average_marks = total_marks / len(student) if student else 0
 
-    @price.setter
-    def price(self, value):
-        # Explicitly check for bool first, as bool is a subclass of int in Python
-        if isinstance(value, bool):
-            raise TypeError("Price cannot be a boolean value.")
-        if not isinstance(value, (int, float)):
-            raise TypeError("Price must be a numeric value (int or float).")
-        if value < 0:
-            raise ValueError("Price cannot be negative.")
-        self._price = value
+# # 3. Find the subject with the highest marks
+# highest_subject = max(student, key=student.get)
+# highest_marks = student[highest_subject]
 
-    @property
-    def quantity(self):
-        return self._quantity
-
-    @quantity.setter
-    def quantity(self, value):
-        # Explicitly check for bool first
-        if isinstance(value, bool):
-            raise TypeError("Quantity cannot be a boolean value.")
-        if not isinstance(value, int):
-            raise TypeError("Quantity must be an integer.")
-        if value < 0:
-            raise ValueError("Quantity cannot be negative.")
-        self._quantity = value
-
-    def total_value(self):
-        """Calculates and returns the total inventory value."""
-        return self._price * self._quantity
-
-    def display(self):
-        """Displays all product details and its total value."""
-        print(f"Product Name : {self.name}")
-        print(f"Price        : ${self.price:.2f}")
-        print(f"Quantity     : {self.quantity}")
-        print(f"Total Value  : ${self.total_value():.2f}")
+# # Print the results
+# print("Total Marks:", total_marks)
+# print("Average Marks:", round(average_marks, 2))
+# print(f"Subject with Highest Marks: {highest_subject} ({highest_marks})")
 
 
+# # Day #142 of #100 days of python practise using ai.. 
+
+# # q1 programme - 
+
+# class Product:
+#     def __init__(self, name, price, quantity):
+#         self.name = name
+#         self.price = price       # Invokes the price setter
+#         self.quantity = quantity # Invokes the quantity setter
+
+#     @property
+#     def price(self):
+#         return self._price
+
+#     @price.setter
+#     def price(self, value):
+#         # Explicitly check for bool first, as bool is a subclass of int in Python
+#         if isinstance(value, bool):
+#             raise TypeError("Price cannot be a boolean value.")
+#         if not isinstance(value, (int, float)):
+#             raise TypeError("Price must be a numeric value (int or float).")
+#         if value < 0:
+#             raise ValueError("Price cannot be negative.")
+#         self._price = value
+
+#     @property
+#     def quantity(self):
+#         return self._quantity
+
+#     @quantity.setter
+#     def quantity(self, value):
+#         # Explicitly check for bool first
+#         if isinstance(value, bool):
+#             raise TypeError("Quantity cannot be a boolean value.")
+#         if not isinstance(value, int):
+#             raise TypeError("Quantity must be an integer.")
+#         if value < 0:
+#             raise ValueError("Quantity cannot be negative.")
+#         self._quantity = value
+
+#     def total_value(self):
+#         """Calculates and returns the total inventory value."""
+#         return self._price * self._quantity
+
+#     def display(self):
+#         """Displays all product details and its total value."""
+#         print(f"Product Name : {self.name}")
+#         print(f"Price        : ${self.price:.2f}")
+#         print(f"Quantity     : {self.quantity}")
+#         print(f"Total Value  : ${self.total_value():.2f}")
 
 
 
-# q2 programme - 
 
-        students = {
-    "Alice": [85, 90, 78],
-    "Bob": [65, 72, 80],
-    "Charlie": [92, 88, 95],
-    "David": [55, 60, 58],
-    "Emma": [78, 82, 85]
-}
 
-def analyze_students(student_data):
-    """
-    Analyzes student marks data and returns average marks per student,
-    students with an average >= 75 (using dictionary comprehension),
-    the topper, and the overall class average.
-    """
-    # 1. Calculate the average marks for every student using a dictionary comprehension
-    averages = {name: sum(marks) / len(marks) for name, marks in student_data.items()}
+# # q2 programme - 
+
+#         students = {
+#     "Alice": [85, 90, 78],
+#     "Bob": [65, 72, 80],
+#     "Charlie": [92, 88, 95],
+#     "David": [55, 60, 58],
+#     "Emma": [78, 82, 85]
+# }
+
+# def analyze_students(student_data):
+#     """
+#     Analyzes student marks data and returns average marks per student,
+#     students with an average >= 75 (using dictionary comprehension),
+#     the topper, and the overall class average.
+#     """
+#     # 1. Calculate the average marks for every student using a dictionary comprehension
+#     averages = {name: sum(marks) / len(marks) for name, marks in student_data.items()}
     
-    # 2. Create a new dictionary containing students whose average is at least 75
-    top_students = {name: avg for name, avg in averages.items() if avg >= 75}
+#     # 2. Create a new dictionary containing students whose average is at least 75
+#     top_students = {name: avg for name, avg in averages.items() if avg >= 75}
     
-    # 3. Find the student with the highest average
-    highest_student = max(averages, key=averages.get) if averages else None
+#     # 3. Find the student with the highest average
+#     highest_student = max(averages, key=averages.get) if averages else None
     
-    # 4. Calculate the overall average of all students
-    all_averages = [avg for avg in averages.values()]
-    overall_avg = sum(all_averages) / len(all_averages) if all_averages else 0
+#     # 4. Calculate the overall average of all students
+#     all_averages = [avg for avg in averages.values()]
+#     overall_avg = sum(all_averages) / len(all_averages) if all_averages else 0
     
-    # Return all results without printing inside the function
-    return averages, top_students, highest_student, overall_avg
+#     # Return all results without printing inside the function
+#     return averages, top_students, highest_student, overall_avg
 
-# Executing the function and displaying the results outside
-student_averages, filtered_students, topper, class_average = analyze_students(students)
+# # Executing the function and displaying the results outside
+# student_averages, filtered_students, topper, class_average = analyze_students(students)
 
-print("--- Individual Averages ---")
-for name, avg in student_averages.items():
-    print(f"{name}: {avg:.2f}")
+# print("--- Individual Averages ---")
+# for name, avg in student_averages.items():
+#     print(f"{name}: {avg:.2f}")
 
-print("\n--- Students with Average >= 75 ---")
-for name, avg in filtered_students.items():
-    print(f"{name}: {avg:.2f}")
+# print("\n--- Students with Average >= 75 ---")
+# for name, avg in filtered_students.items():
+#     print(f"{name}: {avg:.2f}")
 
-print(f"\nTop Performing Student: {topper} ({student_averages[topper]:.2f})")
-print(f"Overall Class Average: {class_average:.2f}")
+# print(f"\nTop Performing Student: {topper} ({student_averages[topper]:.2f})")
+# print(f"Overall Class Average: {class_average:.2f}")
+
+# Day #143 of #100 days of python practise using ai..
+
+# # q1 programme - 
+
+# class Student:
+
+#   def __init__(self, name, marks):
+#     self.name = name
+#     self.marks = marks  # Triggers the property setter for validation
+
+#   @property
+#   def marks(self):
+#     """Getter for student marks."""
+#     return self._marks
+
+#   @marks.setter
+#   def marks(self, value):
+#     """Setter to validate marks (rejects booleans, non-numeric values,
+
+#     and values outside the 0-100 range).
+#     """
+#     if isinstance(value, bool):
+#       raise TypeError("Marks cannot be a boolean value.")
+#     if not isinstance(value, (int, float)):
+#       raise TypeError("Marks must be a numeric value.")
+#     if not (0 <= value <= 100):
+#       raise ValueError("Marks must be between 0 and 100.")
+#     self._marks = value
+
+#   def display(self):
+#     """Prints the student's name and marks."""
+#     print(f"Student Name: {self.name}")
+#     print(f"Marks: {self._marks}")
+
+
+
+#     # q2 programme - 
+
+#     # 1. Accept a sentence from the user
+# sentence = input("Enter a sentence: ")
+
+# # 2. Convert the sentence to lowercase
+# sentence_lower = sentence.lower()
+
+# # 3. Split it into individual words
+# words = sentence_lower.split()
+
+# # 4. Use a dictionary to count the frequency of each word
+# word_count = {}
+# for word in words:
+#   word_count[word] = word_count.get(word, 0) + 1
+
+# # 5. Display the resulting dictionary
+# print("Word Frequency Dictionary:", word_count)
+    
+
+
+
 
 
 
