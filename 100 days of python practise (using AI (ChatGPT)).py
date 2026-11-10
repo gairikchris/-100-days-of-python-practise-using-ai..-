@@ -9653,201 +9653,268 @@
     
 
 
+# # # q1 programme - 
+
+# class Product:
+#     def __init__(self, product_id, name: str, price: float, quantity: int):
+#         self.product_id = product_id
+#         self.name = str(name)
+#         self.price = price        # Uses setter validation
+#         self.quantity = quantity  # Uses setter validation
+
+#     @property
+#     def price(self) -> float:
+#         return self._price
+
+#     @price.setter
+#     def price(self, value: float):
+#         # Reject booleans (since bool is a subclass of int in Python)
+#         if isinstance(value, bool) or not isinstance(value, (int, float)):
+#             raise TypeError("Price must be a numeric value (int or float).")
+#         if value <= 0:
+#             raise ValueError("Price must be a positive numeric value.")
+#         self._price = float(value)
+
+#     @property
+#     def quantity(self) -> int:
+#         return self._quantity
+
+#     @quantity.setter
+#     def quantity(self, value: int):
+#         if isinstance(value, bool) or not isinstance(value, int):
+#             raise TypeError("Quantity must be an integer.")
+#         if value < 0:
+#             raise ValueError("Quantity must be a non-negative integer.")
+#         self._quantity = value
+
+#     def __repr__(self):
+#         return f"Product(ID: {self.product_id}, Name: '{self.name}', Price: ${self.price:.2f}, Qty: {self.quantity})"
+
+
+# class Inventory:
+#     def __init__(self):
+#         self._products = {}
+
+#     def add_product(self, product_id, name: str, price: float, quantity: int):
+#         """Adds a new product to the inventory."""
+#         if product_id in self._products:
+#             raise ValueError(f"Product ID '{product_id}' already exists.")
+        
+#         # Instantiate product; property decorators handle type/value validation
+#         product = Product(product_id, name, price, quantity)
+#         self._products[product_id] = product
+
+#     def remove_product(self, product_id):
+#         """Removes a product by its ID."""
+#         if product_id not in self._products:
+#             raise KeyError(f"Product ID '{product_id}' not found in inventory.")
+#         del self._products[product_id]
+
+#     def update_quantity(self, product_id, new_quantity: int):
+#         """Updates the quantity of an existing product."""
+#         if product_id not in self._products:
+#             raise KeyError(f"Product ID '{product_id}' not found in inventory.")
+#         # Quantity setter validates positive/non-negative/non-boolean rules
+#         self._products[product_id].quantity = new_quantity
+
+#     def calculate_inventory_value(self) -> float:
+#         """Calculates total inventory valuation."""
+#         return sum(item.price * item.quantity for item in self._products.values())
+
+#     def display_inventory(self):
+#         """Prints all products in stock."""
+#         if not self._products:
+#             print("Inventory is empty.")
+#             return
+        
+#         print("--- Current Inventory ---")
+#         for product in self._products.values():
+#             print(product)
+
+
+
+# # # q2 programme - 
+
+# class ValidatedField:
+#     """A descriptor that handles type, range, string content, and cross-field validation."""
+#     def __init__(self, expected_type, min_val=None, max_val=None, allow_empty=False):
+#         self.expected_type = expected_type
+#         self.min_val = min_val
+#         self.max_val = max_val
+#         self.allow_empty = allow_empty
+#         self.public_name = None
+#         self.storage_name = None
+
+#     def __set_name__(self, owner, name):
+#         self.public_name = name
+#         self.storage_name = f"_{name}"
+
+#     def __get__(self, instance, owner):
+#         if instance is None:
+#             return self
+#         if self.storage_name not in instance.__dict__:
+#             raise AttributeError(f"Attribute '{self.public_name}' is not initialized.")
+#         return instance.__dict__[self.storage_name]
+
+#     def __set__(self, instance, value):
+#         # 1. Check if numeric expected and reject boolean (since bool is a subclass of int in Python)
+#         expected_tuple = self.expected_type if isinstance(self.expected_type, tuple) else (self.expected_type,)
+#         is_numeric_expected = any(issubclass(t, (int, float)) for t in expected_tuple)
+        
+#         if is_numeric_expected and isinstance(value, bool):
+#             raise TypeError(f"'{self.public_name}' expects a numeric value, but received a boolean.")
+
+#         # 2. Type validation
+#         if not isinstance(value, self.expected_type):
+#             raise TypeError(f"'{self.public_name}' must be of type {self.expected_type}.")
+
+#         # 3. String content validation
+#         if isinstance(value, str) and not self.allow_empty and not value.strip():
+#             raise ValueError(f"'{self.public_name}' cannot be empty or blank whitespace.")
+
+#         # 4. Range validation (Min / Max)
+#         if self.min_val is not None and value < self.min_val:
+#             raise ValueError(f"'{self.public_name}' must be at least {self.min_val}.")
+#         if self.max_val is not None and value > self.max_val:
+#             raise ValueError(f"'{self.public_name}' cannot exceed {self.max_val}.")
+
+#         # 5. Cross-field business rule validation
+#         if self.public_name == 'capacity':
+#             current_registered = instance.__dict__.get('_registered', 0)
+#             if value < current_registered:
+#                 raise ValueError(
+#                     f"New capacity ({value}) cannot be smaller than current registrations ({current_registered})."
+#                 )
+#         elif self.public_name == 'registered':
+#             current_capacity = instance.__dict__.get('_capacity')
+#             if current_capacity is not None and value > current_capacity:
+#                 raise ValueError(
+#                     f"Registration count ({value}) cannot exceed event capacity ({current_capacity})."
+#                 )
+
+#         instance.__dict__[self.storage_name] = value
+
+
+# class Event:
+#     event_name = ValidatedField(str, allow_empty=False)
+#     capacity = ValidatedField(int, min_val=1)
+#     registered = ValidatedField(int, min_val=0)
+#     ticket_price = ValidatedField((int, float), min_val=0.0001)  # Must be positive numeric
+
+#     def __init__(self, event_name: str, capacity: int, registered: int = 0, ticket_price: float = 0.0):
+#         # Initialize attributes in safe order (capacity before registered for validation checks)
+#         self.capacity = capacity
+#         self.registered = registered
+#         self.event_name = event_name
+#         self.ticket_price = ticket_price
+
+#     def register_participant(self, count: int = 1):
+#         """Registers a given number of participants if capacity permits."""
+#         if isinstance(count, bool) or not isinstance(count, int) or count <= 0:
+#             raise TypeError("Participant count to register must be a positive integer.")
+        
+#         # Updating self.registered triggers the descriptor's cross-field capacity validation
+#         self.registered += count
+
+#     def cancel_registration(self, count: int = 1):
+#         """Cancels an existing registration count."""
+#         if isinstance(count, bool) or not isinstance(count, int) or count <= 0:
+#             raise TypeError("Cancellation count must be a positive integer.")
+        
+#         new_count = self.registered - count
+#         if new_count < 0:
+#             raise ValueError("Cannot cancel more registrations than currently exist.")
+#         self.registered = new_count
+
+#     def available_seats(self) -> int:
+#         """Returns the number of remaining available seats."""
+#         return self.capacity - self.registered
+
+#     def calculate_revenue(self) -> float:
+#         """Calculates total revenue generated from registered participants."""
+#         return self.registered * self.ticket_price
+
+#     def display_event(self):
+#         """Displays complete event information nicely formatted."""
+#         print(f"\n{'='*10} EVENT SUMMARY {'='*10}")
+#         print(f"Event Name      : {self.event_name}")
+#         print(f"Total Capacity  : {self.capacity}")
+#         print(f"Registered      : {self.registered}")
+#         print(f"Available Seats : {self.available_seats()}")
+#         print(f"Ticket Price    : ${self.ticket_price:.2f}")
+#         print(f"Total Revenue   : ${self.calculate_revenue():.2f}")
+#         print(f"{'='*35}\n")
+
+
+
+# Day #145 of #100 days of python practise using ai.. 
+
 # # q1 programme - 
 
-class Product:
-    def __init__(self, product_id, name: str, price: float, quantity: int):
-        self.product_id = product_id
-        self.name = str(name)
-        self.price = price        # Uses setter validation
-        self.quantity = quantity  # Uses setter validation
-
-    @property
-    def price(self) -> float:
-        return self._price
-
-    @price.setter
-    def price(self, value: float):
-        # Reject booleans (since bool is a subclass of int in Python)
-        if isinstance(value, bool) or not isinstance(value, (int, float)):
-            raise TypeError("Price must be a numeric value (int or float).")
-        if value <= 0:
-            raise ValueError("Price must be a positive numeric value.")
-        self._price = float(value)
-
-    @property
-    def quantity(self) -> int:
-        return self._quantity
-
-    @quantity.setter
-    def quantity(self, value: int):
-        if isinstance(value, bool) or not isinstance(value, int):
-            raise TypeError("Quantity must be an integer.")
-        if value < 0:
-            raise ValueError("Quantity must be a non-negative integer.")
-        self._quantity = value
-
-    def __repr__(self):
-        return f"Product(ID: {self.product_id}, Name: '{self.name}', Price: ${self.price:.2f}, Qty: {self.quantity})"
-
-
-class Inventory:
-    def __init__(self):
-        self._products = {}
-
-    def add_product(self, product_id, name: str, price: float, quantity: int):
-        """Adds a new product to the inventory."""
-        if product_id in self._products:
-            raise ValueError(f"Product ID '{product_id}' already exists.")
+def analyze_positives(numbers):
+    # Step 2: Create a new list containing only positive numbers (> 0)
+    positive_numbers = [num for num in numbers if num > 0]
+    
+    # Step 3: Calculate their average (handling the empty list edge case)
+    if positive_numbers:
+        average = sum(positive_numbers) / len(positive_numbers)
+    else:
+        average = 0.0
         
-        # Instantiate product; property decorators handle type/value validation
-        product = Product(product_id, name, price, quantity)
-        self._products[product_id] = product
+    # Step 4: Print both the filtered list and the average
+    print(f"Filtered Positive Numbers: {positive_numbers}")
+    print(f"Average: {average}")
+    
+    return positive_numbers, average
 
-    def remove_product(self, product_id):
-        """Removes a product by its ID."""
-        if product_id not in self._products:
-            raise KeyError(f"Product ID '{product_id}' not found in inventory.")
-        del self._products[product_id]
-
-    def update_quantity(self, product_id, new_quantity: int):
-        """Updates the quantity of an existing product."""
-        if product_id not in self._products:
-            raise KeyError(f"Product ID '{product_id}' not found in inventory.")
-        # Quantity setter validates positive/non-negative/non-boolean rules
-        self._products[product_id].quantity = new_quantity
-
-    def calculate_inventory_value(self) -> float:
-        """Calculates total inventory valuation."""
-        return sum(item.price * item.quantity for item in self._products.values())
-
-    def display_inventory(self):
-        """Prints all products in stock."""
-        if not self._products:
-            print("Inventory is empty.")
-            return
-        
-        print("--- Current Inventory ---")
-        for product in self._products.values():
-            print(product)
+# Example usage:
+sample_list = [-10, 15, 3, -2, 8, 0, 22]
+analyze_positives(sample_list)
 
 
 
 # # q2 programme - 
 
-class ValidatedField:
-    """A descriptor that handles type, range, string content, and cross-field validation."""
-    def __init__(self, expected_type, min_val=None, max_val=None, allow_empty=False):
-        self.expected_type = expected_type
-        self.min_val = min_val
-        self.max_val = max_val
-        self.allow_empty = allow_empty
-        self.public_name = None
-        self.storage_name = None
 
-    def __set_name__(self, owner, name):
-        self.public_name = name
-        self.storage_name = f"_{name}"
+class Student:
+    def __init__(self, name, marks):
+        self.name = name
+        self.marks = marks  # This triggers the @marks.setter for validation
 
-    def __get__(self, instance, owner):
-        if instance is None:
-            return self
-        if self.storage_name not in instance.__dict__:
-            raise AttributeError(f"Attribute '{self.public_name}' is not initialized.")
-        return instance.__dict__[self.storage_name]
+    @property
+    def marks(self):
+        """Getter for marks."""
+        return self._marks
 
-    def __set__(self, instance, value):
-        # 1. Check if numeric expected and reject boolean (since bool is a subclass of int in Python)
-        expected_tuple = self.expected_type if isinstance(self.expected_type, tuple) else (self.expected_type,)
-        is_numeric_expected = any(issubclass(t, (int, float)) for t in expected_tuple)
+    @marks.setter
+    def marks(self, value):
+        """Setter for marks with validation (0-100 range)."""
+        if not (0 <= value <= 100):
+            raise ValueError("Marks must be between 0 and 100.")
+        self._marks = value
+
+    def display(self):
+        """Prints the student's details."""
+        print(f"Student Name: {self.name}")
+        print(f"Marks: {self.marks}")
+
+# --- Example Usage ---
+if __name__ == "__main__":
+    # Creating a valid student
+    student1 = Student("Aarav", 88)
+    student1.display()
+    
+    print("-" * 20)
+
+    # Testing updating marks and triggering ValueError
+    try:
+        student1.marks = 105  # Invalid mark
+    except ValueError as e:
+        print(f"Error caught: {e}")
         
-        if is_numeric_expected and isinstance(value, bool):
-            raise TypeError(f"'{self.public_name}' expects a numeric value, but received a boolean.")
-
-        # 2. Type validation
-        if not isinstance(value, self.expected_type):
-            raise TypeError(f"'{self.public_name}' must be of type {self.expected_type}.")
-
-        # 3. String content validation
-        if isinstance(value, str) and not self.allow_empty and not value.strip():
-            raise ValueError(f"'{self.public_name}' cannot be empty or blank whitespace.")
-
-        # 4. Range validation (Min / Max)
-        if self.min_val is not None and value < self.min_val:
-            raise ValueError(f"'{self.public_name}' must be at least {self.min_val}.")
-        if self.max_val is not None and value > self.max_val:
-            raise ValueError(f"'{self.public_name}' cannot exceed {self.max_val}.")
-
-        # 5. Cross-field business rule validation
-        if self.public_name == 'capacity':
-            current_registered = instance.__dict__.get('_registered', 0)
-            if value < current_registered:
-                raise ValueError(
-                    f"New capacity ({value}) cannot be smaller than current registrations ({current_registered})."
-                )
-        elif self.public_name == 'registered':
-            current_capacity = instance.__dict__.get('_capacity')
-            if current_capacity is not None and value > current_capacity:
-                raise ValueError(
-                    f"Registration count ({value}) cannot exceed event capacity ({current_capacity})."
-                )
-
-        instance.__dict__[self.storage_name] = value
-
-
-class Event:
-    event_name = ValidatedField(str, allow_empty=False)
-    capacity = ValidatedField(int, min_val=1)
-    registered = ValidatedField(int, min_val=0)
-    ticket_price = ValidatedField((int, float), min_val=0.0001)  # Must be positive numeric
-
-    def __init__(self, event_name: str, capacity: int, registered: int = 0, ticket_price: float = 0.0):
-        # Initialize attributes in safe order (capacity before registered for validation checks)
-        self.capacity = capacity
-        self.registered = registered
-        self.event_name = event_name
-        self.ticket_price = ticket_price
-
-    def register_participant(self, count: int = 1):
-        """Registers a given number of participants if capacity permits."""
-        if isinstance(count, bool) or not isinstance(count, int) or count <= 0:
-            raise TypeError("Participant count to register must be a positive integer.")
-        
-        # Updating self.registered triggers the descriptor's cross-field capacity validation
-        self.registered += count
-
-    def cancel_registration(self, count: int = 1):
-        """Cancels an existing registration count."""
-        if isinstance(count, bool) or not isinstance(count, int) or count <= 0:
-            raise TypeError("Cancellation count must be a positive integer.")
-        
-        new_count = self.registered - count
-        if new_count < 0:
-            raise ValueError("Cannot cancel more registrations than currently exist.")
-        self.registered = new_count
-
-    def available_seats(self) -> int:
-        """Returns the number of remaining available seats."""
-        return self.capacity - self.registered
-
-    def calculate_revenue(self) -> float:
-        """Calculates total revenue generated from registered participants."""
-        return self.registered * self.ticket_price
-
-    def display_event(self):
-        """Displays complete event information nicely formatted."""
-        print(f"\n{'='*10} EVENT SUMMARY {'='*10}")
-        print(f"Event Name      : {self.event_name}")
-        print(f"Total Capacity  : {self.capacity}")
-        print(f"Registered      : {self.registered}")
-        print(f"Available Seats : {self.available_seats()}")
-        print(f"Ticket Price    : ${self.ticket_price:.2f}")
-        print(f"Total Revenue   : ${self.calculate_revenue():.2f}")
-        print(f"{'='*35}\n")
-
-
-
-
+    # Valid update
+    student1.marks = 92
+    student1.display()
 
     
 
