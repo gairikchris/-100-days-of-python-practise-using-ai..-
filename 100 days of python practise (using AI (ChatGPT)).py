@@ -9849,74 +9849,155 @@
 
 # Day #145 of #100 days of python practise using ai.. 
 
-# # q1 programme - 
+# # # q1 programme - 
 
-def analyze_positives(numbers):
-    # Step 2: Create a new list containing only positive numbers (> 0)
-    positive_numbers = [num for num in numbers if num > 0]
+# def analyze_positives(numbers):
+#     # Step 2: Create a new list containing only positive numbers (> 0)
+#     positive_numbers = [num for num in numbers if num > 0]
     
-    # Step 3: Calculate their average (handling the empty list edge case)
-    if positive_numbers:
-        average = sum(positive_numbers) / len(positive_numbers)
-    else:
-        average = 0.0
+#     # Step 3: Calculate their average (handling the empty list edge case)
+#     if positive_numbers:
+#         average = sum(positive_numbers) / len(positive_numbers)
+#     else:
+#         average = 0.0
         
-    # Step 4: Print both the filtered list and the average
-    print(f"Filtered Positive Numbers: {positive_numbers}")
-    print(f"Average: {average}")
+#     # Step 4: Print both the filtered list and the average
+#     print(f"Filtered Positive Numbers: {positive_numbers}")
+#     print(f"Average: {average}")
     
-    return positive_numbers, average
+#     return positive_numbers, average
 
-# Example usage:
-sample_list = [-10, 15, 3, -2, 8, 0, 22]
-analyze_positives(sample_list)
+# # Example usage:
+# sample_list = [-10, 15, 3, -2, 8, 0, 22]
+# analyze_positives(sample_list)
+
+
+
+# # # q2 programme - 
+
+
+# class Student:
+#     def __init__(self, name, marks):
+#         self.name = name
+#         self.marks = marks  # This triggers the @marks.setter for validation
+
+#     @property
+#     def marks(self):
+#         """Getter for marks."""
+#         return self._marks
+
+#     @marks.setter
+#     def marks(self, value):
+#         """Setter for marks with validation (0-100 range)."""
+#         if not (0 <= value <= 100):
+#             raise ValueError("Marks must be between 0 and 100.")
+#         self._marks = value
+
+#     def display(self):
+#         """Prints the student's details."""
+#         print(f"Student Name: {self.name}")
+#         print(f"Marks: {self.marks}")
+
+# # --- Example Usage ---
+# if __name__ == "__main__":
+#     # Creating a valid student
+#     student1 = Student("Aarav", 88)
+#     student1.display()
+    
+#     print("-" * 20)
+
+#     # Testing updating marks and triggering ValueError
+#     try:
+#         student1.marks = 105  # Invalid mark
+#     except ValueError as e:
+#         print(f"Error caught: {e}")
+        
+#     # Valid update
+#     student1.marks = 92
+#     student1.display()
+
+
+# Day #146 of #100 days of python practise using ai.. 
+
+# # q1 programme -  
+
+def analyze_numbers(numbers):
+    # Create a new list with only numbers divisible by 3
+    filtered = [num for num in numbers if num % 3 == 0]
+
+    # Calculate the sum of those numbers
+    total = sum(filtered)
+
+    # Count how many such numbers are present
+    count = len(filtered)
+
+    # Return all three values
+    return filtered, total, count
+
+# Test
+numbers = [1, 3, 5, 6, 9, 10, 12, 15, 20]
+filtered_list, total_sum, total_count = analyze_numbers(numbers)
+
+print("Original list:", numbers)
+print("Divisible by 3:", filtered_list)
+print("Sum:", total_sum)
+print("Count:", total_count)
 
 
 
 # # q2 programme - 
 
-
 class Student:
     def __init__(self, name, marks):
         self.name = name
-        self.marks = marks  # This triggers the @marks.setter for validation
+        self.marks = marks  # This will go through the setter for validation
 
     @property
     def marks(self):
-        """Getter for marks."""
         return self._marks
 
     @marks.setter
     def marks(self, value):
-        """Setter for marks with validation (0-100 range)."""
-        if not (0 <= value <= 100):
-            raise ValueError("Marks must be between 0 and 100.")
+        # Reject Boolean values first, because bool is a subclass of int in Python
+        if isinstance(value, bool):
+            raise TypeError("marks must be numeric, not bool")
+
+        # Reject non-numeric values
+        if not isinstance(value, (int, float)):
+            raise TypeError("marks must be numeric")
+
+        # Reject marks outside 0-100
+        if value < 0 or value > 100:
+            raise ValueError("marks must be between 0 and 100")
+
         self._marks = value
 
-    def display(self):
-        """Prints the student's details."""
-        print(f"Student Name: {self.name}")
-        print(f"Marks: {self.marks}")
+    def has_passed(self):
+        return self.marks >= 40
 
-# --- Example Usage ---
-if __name__ == "__main__":
-    # Creating a valid student
-    student1 = Student("Aarav", 88)
-    student1.display()
-    
-    print("-" * 20)
+# Test
+s1 = Student("Rahul", 75)
+print(s1.name, s1.marks, s1.has_passed())  # Rahul 75 True
 
-    # Testing updating marks and triggering ValueError
-    try:
-        student1.marks = 105  # Invalid mark
-    except ValueError as e:
-        print(f"Error caught: {e}")
-        
-    # Valid update
-    student1.marks = 92
-    student1.display()
+s2 = Student("Priya", 30)
+print(s2.name, s2.marks, s2.has_passed())  # Priya 30 False
 
-    
+# Validation tests
+try:
+    s1.marks = True
+except Exception as e:
+    print(f"marks = True -> {type(e).__name__}: {e}")
+
+try:
+    s1.marks = "80"
+except Exception as e:
+    print(f"marks = '80' -> {type(e).__name__}: {e}")
+
+try:
+    s1.marks = 120
+except Exception as e:
+    print(f"marks = 120 -> {type(e).__name__}: {e}")
+
 
 
 
