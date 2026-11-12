@@ -9919,86 +9919,207 @@
 
 # Day #146 of #100 days of python practise using ai.. 
 
-# # q1 programme -  
+# # # q1 programme -  
 
-def analyze_numbers(numbers):
-    # Create a new list with only numbers divisible by 3
-    filtered = [num for num in numbers if num % 3 == 0]
+# def analyze_numbers(numbers):
+#     # Create a new list with only numbers divisible by 3
+#     filtered = [num for num in numbers if num % 3 == 0]
 
-    # Calculate the sum of those numbers
-    total = sum(filtered)
+#     # Calculate the sum of those numbers
+#     total = sum(filtered)
 
-    # Count how many such numbers are present
-    count = len(filtered)
+#     # Count how many such numbers are present
+#     count = len(filtered)
 
-    # Return all three values
-    return filtered, total, count
+#     # Return all three values
+#     return filtered, total, count
 
-# Test
-numbers = [1, 3, 5, 6, 9, 10, 12, 15, 20]
-filtered_list, total_sum, total_count = analyze_numbers(numbers)
+# # Test
+# numbers = [1, 3, 5, 6, 9, 10, 12, 15, 20]
+# filtered_list, total_sum, total_count = analyze_numbers(numbers)
 
-print("Original list:", numbers)
-print("Divisible by 3:", filtered_list)
-print("Sum:", total_sum)
-print("Count:", total_count)
+# print("Original list:", numbers)
+# print("Divisible by 3:", filtered_list)
+# print("Sum:", total_sum)
+# print("Count:", total_count)
 
 
 
-# # q2 programme - 
+# # # q2 programme - 
 
-class Student:
-    def __init__(self, name, marks):
-        self.name = name
-        self.marks = marks  # This will go through the setter for validation
+# class Student:
+#     def __init__(self, name, marks):
+#         self.name = name
+#         self.marks = marks  # This will go through the setter for validation
+
+#     @property
+#     def marks(self):
+#         return self._marks
+
+#     @marks.setter
+#     def marks(self, value):
+#         # Reject Boolean values first, because bool is a subclass of int in Python
+#         if isinstance(value, bool):
+#             raise TypeError("marks must be numeric, not bool")
+
+#         # Reject non-numeric values
+#         if not isinstance(value, (int, float)):
+#             raise TypeError("marks must be numeric")
+
+#         # Reject marks outside 0-100
+#         if value < 0 or value > 100:
+#             raise ValueError("marks must be between 0 and 100")
+
+#         self._marks = value
+
+#     def has_passed(self):
+#         return self.marks >= 40
+
+# # Test
+# s1 = Student("Rahul", 75)
+# print(s1.name, s1.marks, s1.has_passed())  # Rahul 75 True
+
+# s2 = Student("Priya", 30)
+# print(s2.name, s2.marks, s2.has_passed())  # Priya 30 False
+
+# # Validation tests
+# try:
+#     s1.marks = True
+# except Exception as e:
+#     print(f"marks = True -> {type(e).__name__}: {e}")
+
+# try:
+#     s1.marks = "80"
+# except Exception as e:
+#     print(f"marks = '80' -> {type(e).__name__}: {e}")
+
+# try:
+#     s1.marks = 120
+# except Exception as e:
+#     print(f"marks = 120 -> {type(e).__name__}: {e}")
+
+
+# Day #147 of #100 days of python practise using ai.. 
+
+# q1 programme -  
+
+def analyze_students(students):
+    # 1. Filter only students who scored 60 or above
+    filtered = {name: marks for name, marks in students.items() if marks >= 60}
+
+    # 2. Handle case where no students qualify
+    if not filtered:
+        return {}, 0, None
+
+    # 3. Calculate average of qualifying students
+    average = sum(filtered.values()) / len(filtered)
+
+    # 4. Identify student with highest marks
+    topper = max(filtered, key=filtered.get)
+
+    # 5. Return filtered dictionary, average, and topper's name
+    return filtered, average, topper
+
+# Test 1: Some students qualify
+students = {"Rahul": 75, "Priya": 55, "Amit": 90, "Sneha": 62, "Rohan": 45}
+filtered_dict, avg, topper = analyze_students(students)
+
+print("Filtered:", filtered_dict)
+print("Average:", avg)
+print("Topper:", topper)
+
+print("---")
+
+# Test 2: No students qualify
+students2 = {"Rahul": 40, "Priya": 55}
+filtered_dict2, avg2, topper2 = analyze_students(students2)
+
+print("Filtered:", filtered_dict2)
+print("Average:", avg2)
+print("Topper:", topper2)
+
+
+
+# q2 programme - 
+
+
+class BankAccount:
+    def __init__(self, account_holder, balance):
+        self.account_holder = account_holder
+        self.balance = balance  # Goes through setter for validation
 
     @property
-    def marks(self):
-        return self._marks
+    def balance(self):
+        return self._balance
 
-    @marks.setter
-    def marks(self, value):
-        # Reject Boolean values first, because bool is a subclass of int in Python
+    @balance.setter
+    def balance(self, value):
+        # Reject Boolean values, bool is a subclass of int
         if isinstance(value, bool):
-            raise TypeError("marks must be numeric, not bool")
+            raise TypeError("balance must be numeric, not bool")
 
         # Reject non-numeric values
         if not isinstance(value, (int, float)):
-            raise TypeError("marks must be numeric")
+            raise TypeError("balance must be numeric")
 
-        # Reject marks outside 0-100
-        if value < 0 or value > 100:
-            raise ValueError("marks must be between 0 and 100")
+        # Reject negative balances
+        if value < 0:
+            raise ValueError("balance cannot be negative")
 
-        self._marks = value
+        self._balance = value
 
-    def has_passed(self):
-        return self.marks >= 40
+    def deposit(self, amount):
+        # Validate deposit amount
+        if isinstance(amount, bool) or not isinstance(amount, (int, float)):
+            raise TypeError("deposit amount must be numeric")
+
+        if amount <= 0:
+            raise ValueError("deposit amount must be positive")
+
+        self.balance += amount
+        return self.balance
+
+    def withdraw(self, amount):
+        # Validate withdraw amount
+        if isinstance(amount, bool) or not isinstance(amount, (int, float)):
+            raise TypeError("withdraw amount must be numeric")
+
+        if amount <= 0:
+            raise ValueError("withdraw amount must be positive")
+
+        if amount > self.balance:
+            raise ValueError("insufficient balance")
+
+        self.balance -= amount
+        return self.balance
 
 # Test
-s1 = Student("Rahul", 75)
-print(s1.name, s1.marks, s1.has_passed())  # Rahul 75 True
+acc = BankAccount("Rahul", 1000)
+print(acc.account_holder, acc.balance)
 
-s2 = Student("Priya", 30)
-print(s2.name, s2.marks, s2.has_passed())  # Priya 30 False
+print("After deposit 500:", acc.deposit(500))
+print("After withdraw 300:", acc.withdraw(300))
 
-# Validation tests
-try:
-    s1.marks = True
-except Exception as e:
-    print(f"marks = True -> {type(e).__name__}: {e}")
+print("--- Validation tests ---")
 
 try:
-    s1.marks = "80"
+    acc2 = BankAccount("Priya", -100)
 except Exception as e:
-    print(f"marks = '80' -> {type(e).__name__}: {e}")
+    print(f"balance = -100 -> {type(e).__name__}: {e}")
 
 try:
-    s1.marks = 120
+    acc2 = BankAccount("Priya", True)
 except Exception as e:
-    print(f"marks = 120 -> {type(e).__name__}: {e}")
+    print(f"balance = True -> {type(e).__name__}: {e}")
 
+try:
+    acc.withdraw(5000)
+except Exception as e:
+    print(f"withdraw 5000 -> {type(e).__name__}: {e}")
 
-
+try:
+    acc.deposit(-50)
+except Exception as e:
+    print(f"deposit -50 -> {type(e).__name__}: {e}")
 
 
