@@ -10001,125 +10001,197 @@
 
 # Day #147 of #100 days of python practise using ai.. 
 
-# q1 programme -  
+# # q1 programme -  
 
-def analyze_students(students):
-    # 1. Filter only students who scored 60 or above
-    filtered = {name: marks for name, marks in students.items() if marks >= 60}
+# def analyze_students(students):
+#     # 1. Filter only students who scored 60 or above
+#     filtered = {name: marks for name, marks in students.items() if marks >= 60}
 
-    # 2. Handle case where no students qualify
-    if not filtered:
-        return {}, 0, None
+#     # 2. Handle case where no students qualify
+#     if not filtered:
+#         return {}, 0, None
 
-    # 3. Calculate average of qualifying students
-    average = sum(filtered.values()) / len(filtered)
+#     # 3. Calculate average of qualifying students
+#     average = sum(filtered.values()) / len(filtered)
 
-    # 4. Identify student with highest marks
-    topper = max(filtered, key=filtered.get)
+#     # 4. Identify student with highest marks
+#     topper = max(filtered, key=filtered.get)
 
-    # 5. Return filtered dictionary, average, and topper's name
-    return filtered, average, topper
+#     # 5. Return filtered dictionary, average, and topper's name
+#     return filtered, average, topper
 
-# Test 1: Some students qualify
-students = {"Rahul": 75, "Priya": 55, "Amit": 90, "Sneha": 62, "Rohan": 45}
-filtered_dict, avg, topper = analyze_students(students)
+# # Test 1: Some students qualify
+# students = {"Rahul": 75, "Priya": 55, "Amit": 90, "Sneha": 62, "Rohan": 45}
+# filtered_dict, avg, topper = analyze_students(students)
 
-print("Filtered:", filtered_dict)
-print("Average:", avg)
-print("Topper:", topper)
+# print("Filtered:", filtered_dict)
+# print("Average:", avg)
+# print("Topper:", topper)
+
+# print("---")
+
+# # Test 2: No students qualify
+# students2 = {"Rahul": 40, "Priya": 55}
+# filtered_dict2, avg2, topper2 = analyze_students(students2)
+
+# print("Filtered:", filtered_dict2)
+# print("Average:", avg2)
+# print("Topper:", topper2)
+
+
+
+# # q2 programme - 
+
+
+# class BankAccount:
+#     def __init__(self, account_holder, balance):
+#         self.account_holder = account_holder
+#         self.balance = balance  # Goes through setter for validation
+
+#     @property
+#     def balance(self):
+#         return self._balance
+
+#     @balance.setter
+#     def balance(self, value):
+#         # Reject Boolean values, bool is a subclass of int
+#         if isinstance(value, bool):
+#             raise TypeError("balance must be numeric, not bool")
+
+#         # Reject non-numeric values
+#         if not isinstance(value, (int, float)):
+#             raise TypeError("balance must be numeric")
+
+#         # Reject negative balances
+#         if value < 0:
+#             raise ValueError("balance cannot be negative")
+
+#         self._balance = value
+
+#     def deposit(self, amount):
+#         # Validate deposit amount
+#         if isinstance(amount, bool) or not isinstance(amount, (int, float)):
+#             raise TypeError("deposit amount must be numeric")
+
+#         if amount <= 0:
+#             raise ValueError("deposit amount must be positive")
+
+#         self.balance += amount
+#         return self.balance
+
+#     def withdraw(self, amount):
+#         # Validate withdraw amount
+#         if isinstance(amount, bool) or not isinstance(amount, (int, float)):
+#             raise TypeError("withdraw amount must be numeric")
+
+#         if amount <= 0:
+#             raise ValueError("withdraw amount must be positive")
+
+#         if amount > self.balance:
+#             raise ValueError("insufficient balance")
+
+#         self.balance -= amount
+#         return self.balance
+
+# # Test
+# acc = BankAccount("Rahul", 1000)
+# print(acc.account_holder, acc.balance)
+
+# print("After deposit 500:", acc.deposit(500))
+# print("After withdraw 300:", acc.withdraw(300))
+
+# print("--- Validation tests ---")
+
+# try:
+#     acc2 = BankAccount("Priya", -100)
+# except Exception as e:
+#     print(f"balance = -100 -> {type(e).__name__}: {e}")
+
+# try:
+#     acc2 = BankAccount("Priya", True)
+# except Exception as e:
+#     print(f"balance = True -> {type(e).__name__}: {e}")
+
+# try:
+#     acc.withdraw(5000)
+# except Exception as e:
+#     print(f"withdraw 5000 -> {type(e).__name__}: {e}")
+
+# try:
+#     acc.deposit(-50)
+# except Exception as e:
+#     print(f"deposit -50 -> {type(e).__name__}: {e}")
+
+
+
+
+
+
+
+
+# Day #148 of #100 days of python practise using ai.. 
+
+# # q1 programme - 
+
+def analyze_words(words):
+    # 1. Filter only words with more than 4 characters
+    filtered = [word for word in words if len(word) > 4]
+
+    # 2. Calculate total number of characters in filtered words
+    total_chars = sum(len(word) for word in filtered)
+
+    # 3. Return filtered list and total character count
+    return filtered, total_chars
+
+# Test 1: Normal list
+words = ["cat", "elephant", "dog", "python", "book", "programming"]
+filtered_list, total = analyze_words(words)
+
+print("Filtered:", filtered_list)
+print("Total characters:", total)
 
 print("---")
 
-# Test 2: No students qualify
-students2 = {"Rahul": 40, "Priya": 55}
-filtered_dict2, avg2, topper2 = analyze_students(students2)
-
-print("Filtered:", filtered_dict2)
-print("Average:", avg2)
-print("Topper:", topper2)
-
+# Test 2: Empty list
+filtered_list2, total2 = analyze_words([])
+print("Filtered:", filtered_list2)
+print("Total characters:", total2)
 
 
 # q2 programme - 
 
+def analyze_salaries(employees):
+    # 1. Filter only employees earning 30000 or more
+    filtered = {name: salary for name, salary in employees.items() if salary >= 30000}
 
-class BankAccount:
-    def __init__(self, account_holder, balance):
-        self.account_holder = account_holder
-        self.balance = balance  # Goes through setter for validation
+    # 2. Handle case where no employees qualify
+    if not filtered:
+        return {}, 0, None
 
-    @property
-    def balance(self):
-        return self._balance
+    # 3. Calculate average salary of qualifying employees
+    average = sum(filtered.values()) / len(filtered)
 
-    @balance.setter
-    def balance(self, value):
-        # Reject Boolean values, bool is a subclass of int
-        if isinstance(value, bool):
-            raise TypeError("balance must be numeric, not bool")
+    # 4. Find employee with highest qualifying salary
+    highest_paid = max(filtered, key=filtered.get)
 
-        # Reject non-numeric values
-        if not isinstance(value, (int, float)):
-            raise TypeError("balance must be numeric")
+    # 5. Return filtered dictionary, average, and highest-paid employee
+    return filtered, average, highest_paid
 
-        # Reject negative balances
-        if value < 0:
-            raise ValueError("balance cannot be negative")
+# Test 1: Some employees qualify
+employees = {"Rahul": 25000, "Priya": 45000, "Amit": 60000, "Sneha": 32000, "Rohan": 28000}
+filtered_dict, avg, top = analyze_salaries(employees)
 
-        self._balance = value
+print("Filtered:", filtered_dict)
+print("Average Salary:", avg)
+print("Highest Paid:", top)
 
-    def deposit(self, amount):
-        # Validate deposit amount
-        if isinstance(amount, bool) or not isinstance(amount, (int, float)):
-            raise TypeError("deposit amount must be numeric")
+print("---")
 
-        if amount <= 0:
-            raise ValueError("deposit amount must be positive")
+# Test 2: No employees qualify
+employees2 = {"Rahul": 20000, "Priya": 25000}
+filtered_dict2, avg2, top2 = analyze_salaries(employees2)
 
-        self.balance += amount
-        return self.balance
-
-    def withdraw(self, amount):
-        # Validate withdraw amount
-        if isinstance(amount, bool) or not isinstance(amount, (int, float)):
-            raise TypeError("withdraw amount must be numeric")
-
-        if amount <= 0:
-            raise ValueError("withdraw amount must be positive")
-
-        if amount > self.balance:
-            raise ValueError("insufficient balance")
-
-        self.balance -= amount
-        return self.balance
-
-# Test
-acc = BankAccount("Rahul", 1000)
-print(acc.account_holder, acc.balance)
-
-print("After deposit 500:", acc.deposit(500))
-print("After withdraw 300:", acc.withdraw(300))
-
-print("--- Validation tests ---")
-
-try:
-    acc2 = BankAccount("Priya", -100)
-except Exception as e:
-    print(f"balance = -100 -> {type(e).__name__}: {e}")
-
-try:
-    acc2 = BankAccount("Priya", True)
-except Exception as e:
-    print(f"balance = True -> {type(e).__name__}: {e}")
-
-try:
-    acc.withdraw(5000)
-except Exception as e:
-    print(f"withdraw 5000 -> {type(e).__name__}: {e}")
-
-try:
-    acc.deposit(-50)
-except Exception as e:
-    print(f"deposit -50 -> {type(e).__name__}: {e}")
-
+print("Filtered:", filtered_dict2)
+print("Average Salary:", avg2)
+print("Highest Paid:", top2)
 
