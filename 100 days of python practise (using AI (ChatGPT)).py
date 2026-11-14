@@ -10131,11 +10131,105 @@
 
 # Day #148 of #100 days of python practise using ai.. 
 
+# # # q1 programme - 
+
+# def analyze_words(words):
+#     # 1. Filter only words with more than 4 characters
+#     filtered = [word for word in words if len(word) > 4]
+
+#     # 2. Calculate total number of characters in filtered words
+#     total_chars = sum(len(word) for word in filtered)
+
+#     # 3. Return filtered list and total character count
+#     return filtered, total_chars
+
+# # Test 1: Normal list
+# words = ["cat", "elephant", "dog", "python", "book", "programming"]
+# filtered_list, total = analyze_words(words)
+
+# print("Filtered:", filtered_list)
+# print("Total characters:", total)
+
+# print("---")
+
+# # Test 2: Empty list
+# filtered_list2, total2 = analyze_words([])
+# print("Filtered:", filtered_list2)
+# print("Total characters:", total2)
+
+
+# # q2 programme - 
+
+# def analyze_salaries(employees):
+#     # 1. Filter only employees earning 30000 or more
+#     filtered = {name: salary for name, salary in employees.items() if salary >= 30000}
+
+#     # 2. Handle case where no employees qualify
+#     if not filtered:
+#         return {}, 0, None
+
+#     # 3. Calculate average salary of qualifying employees
+#     average = sum(filtered.values()) / len(filtered)
+
+#     # 4. Find employee with highest qualifying salary
+#     highest_paid = max(filtered, key=filtered.get)
+
+#     # 5. Return filtered dictionary, average, and highest-paid employee
+#     return filtered, average, highest_paid
+
+# # Test 1: Some employees qualify
+# employees = {"Rahul": 25000, "Priya": 45000, "Amit": 60000, "Sneha": 32000, "Rohan": 28000}
+# filtered_dict, avg, top = analyze_salaries(employees)
+
+# print("Filtered:", filtered_dict)
+# print("Average Salary:", avg)
+# print("Highest Paid:", top)
+
+# print("---")
+
+# # Test 2: No employees qualify
+# employees2 = {"Rahul": 20000, "Priya": 25000}
+# filtered_dict2, avg2, top2 = analyze_salaries(employees2)
+
+# print("Filtered:", filtered_dict2)
+# print("Average Salary:", avg2)
+# print("Highest Paid:", top2)
+
+
+# Day #149 of #100 days of python practise using ai.. 
+
 # # q1 programme - 
 
+def analyze_numbers(numbers):
+    # 1. Filter only numbers greater than 10
+    filtered = [num for num in numbers if num > 10]
+
+    # 2. Calculate sum of filtered numbers
+    total = sum(filtered)
+
+    # 3. Count how many filtered numbers are divisible by 2
+    even_count = sum(1 for num in filtered if num % 2 == 0)
+
+    # 4. Return all three results
+    return filtered, total, even_count
+
+# Test
+numbers = [5, 12, 8, 20, 15, 30, 9, 11]
+filtered_list, total_sum, count = analyze_numbers(numbers)
+
+print("Original list:", numbers)
+print("Greater than 10:", filtered_list)
+print("Sum:", total_sum)
+print("Count divisible by 2:", count)
+
+
+
+# # q2 programme -
+
+
 def analyze_words(words):
-    # 1. Filter only words with more than 4 characters
-    filtered = [word for word in words if len(word) > 4]
+    # 1. Filter only words starting with 'a' (case-insensitive)
+    filtered = [word for word in words if word.lower().startswith('a')]
 
     # 2. Calculate total number of characters in filtered words
     total_chars = sum(len(word) for word in filtered)
@@ -10143,55 +10237,10 @@ def analyze_words(words):
     # 3. Return filtered list and total character count
     return filtered, total_chars
 
-# Test 1: Normal list
-words = ["cat", "elephant", "dog", "python", "book", "programming"]
+# Test
+words = ["Apple", "banana", "avocado", "cat", "Ant", "mango", "airplane"]
 filtered_list, total = analyze_words(words)
 
-print("Filtered:", filtered_list)
+print("Original list:", words)
+print("Starting with 'a':", filtered_list)
 print("Total characters:", total)
-
-print("---")
-
-# Test 2: Empty list
-filtered_list2, total2 = analyze_words([])
-print("Filtered:", filtered_list2)
-print("Total characters:", total2)
-
-
-# q2 programme - 
-
-def analyze_salaries(employees):
-    # 1. Filter only employees earning 30000 or more
-    filtered = {name: salary for name, salary in employees.items() if salary >= 30000}
-
-    # 2. Handle case where no employees qualify
-    if not filtered:
-        return {}, 0, None
-
-    # 3. Calculate average salary of qualifying employees
-    average = sum(filtered.values()) / len(filtered)
-
-    # 4. Find employee with highest qualifying salary
-    highest_paid = max(filtered, key=filtered.get)
-
-    # 5. Return filtered dictionary, average, and highest-paid employee
-    return filtered, average, highest_paid
-
-# Test 1: Some employees qualify
-employees = {"Rahul": 25000, "Priya": 45000, "Amit": 60000, "Sneha": 32000, "Rohan": 28000}
-filtered_dict, avg, top = analyze_salaries(employees)
-
-print("Filtered:", filtered_dict)
-print("Average Salary:", avg)
-print("Highest Paid:", top)
-
-print("---")
-
-# Test 2: No employees qualify
-employees2 = {"Rahul": 20000, "Priya": 25000}
-filtered_dict2, avg2, top2 = analyze_salaries(employees2)
-
-print("Filtered:", filtered_dict2)
-print("Average Salary:", avg2)
-print("Highest Paid:", top2)
-
