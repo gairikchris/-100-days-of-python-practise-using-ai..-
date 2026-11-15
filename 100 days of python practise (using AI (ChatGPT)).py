@@ -10196,51 +10196,140 @@
 # print("Highest Paid:", top2)
 
 
-# Day #149 of #100 days of python practise using ai.. 
+# # Day #149 of #100 days of python practise using ai.. 
 
-# # q1 programme - 
+# # # q1 programme - 
+
+# def analyze_numbers(numbers):
+#     # 1. Filter only numbers greater than 10
+#     filtered = [num for num in numbers if num > 10]
+
+#     # 2. Calculate sum of filtered numbers
+#     total = sum(filtered)
+
+#     # 3. Count how many filtered numbers are divisible by 2
+#     even_count = sum(1 for num in filtered if num % 2 == 0)
+
+#     # 4. Return all three results
+#     return filtered, total, even_count
+
+# # Test
+# numbers = [5, 12, 8, 20, 15, 30, 9, 11]
+# filtered_list, total_sum, count = analyze_numbers(numbers)
+
+# print("Original list:", numbers)
+# print("Greater than 10:", filtered_list)
+# print("Sum:", total_sum)
+# print("Count divisible by 2:", count)
+
+
+
+# # # q2 programme -
+
+
+# def analyze_words(words):
+#     # 1. Filter only words starting with 'a' (case-insensitive)
+#     filtered = [word for word in words if word.lower().startswith('a')]
+
+#     # 2. Calculate total number of characters in filtered words
+#     total_chars = sum(len(word) for word in filtered)
+
+#     # 3. Return filtered list and total character count
+#     return filtered, total_chars
+
+# # Test
+# words = ["Apple", "banana", "avocado", "cat", "Ant", "mango", "airplane"]
+# filtered_list, total = analyze_words(words)
+
+# print("Original list:", words)
+# print("Starting with 'a':", filtered_list)
+# print("Total characters:", total)
+
+
+
+
+
+# Day #150 of #100 days of python practise using ai.. 
+
+# # # q1 programme - 
 
 def analyze_numbers(numbers):
-    # 1. Filter only numbers greater than 10
-    filtered = [num for num in numbers if num > 10]
+    # 1. Filter numbers greater than 20 and divisible by 4
+    filtered = [num for num in numbers if num > 20 and num % 4 == 0]
 
-    # 2. Calculate sum of filtered numbers
+    # 2. Handle empty list case
+    if not filtered:
+        return [], 0, 0, 0
+
+    # 3. Calculate sum of filtered numbers
     total = sum(filtered)
 
-    # 3. Count how many filtered numbers are divisible by 2
-    even_count = sum(1 for num in filtered if num % 2 == 0)
+    # 4. Calculate average of filtered numbers
+    average = total / len(filtered)
 
-    # 4. Return all three results
-    return filtered, total, even_count
+    # 5. Count how many filtered numbers are also divisible by 8
+    count_div_by_8 = sum(1 for num in filtered if num % 8 == 0)
 
-# Test
-numbers = [5, 12, 8, 20, 15, 30, 9, 11]
-filtered_list, total_sum, count = analyze_numbers(numbers)
+    # 6. Return all four results
+    return filtered, total, average, count_div_by_8
 
-print("Original list:", numbers)
-print("Greater than 10:", filtered_list)
+# Test 1: Normal list
+numbers = [10, 24, 30, 32, 40, 15, 48, 22, 56]
+filtered_list, total_sum, avg, count_8 = analyze_numbers(numbers)
+
+print("Filtered:", filtered_list)
 print("Sum:", total_sum)
-print("Count divisible by 2:", count)
+print("Average:", avg)
+print("Count divisible by 8:", count_8)
+
+print("---")
+
+# Test 2: Empty / No numbers qualify
+filtered_list2, total_sum2, avg2, count_82 = analyze_numbers([5, 10, 15])
+print("Filtered:", filtered_list2)
+print("Sum:", total_sum2)
+print("Average:", avg2)
+print("Count divisible by 8:", count_82)
 
 
+# # # q2 programme - 
 
-# # q2 programme -
+def analyze_products(products):
+    # 1. Filter products with price greater than 500
+    filtered = {name: price for name, price in products.items() if price > 500}
 
+    # 2. Handle empty result case
+    if not filtered:
+        return {}, 0, None, 0
 
-def analyze_words(words):
-    # 1. Filter only words starting with 'a' (case-insensitive)
-    filtered = [word for word in words if word.lower().startswith('a')]
+    # 3. Calculate total value of filtered products
+    total = sum(filtered.values())
 
-    # 2. Calculate total number of characters in filtered words
-    total_chars = sum(len(word) for word in filtered)
+    # 4. Find name of the most expensive filtered product
+    most_expensive = max(filtered, key=filtered.get)
 
-    # 3. Return filtered list and total character count
-    return filtered, total_chars
+    # 5. Count filtered products with price divisible by 100
+    count_div_by_100 = sum(1 for price in filtered.values() if price % 100 == 0)
 
-# Test
-words = ["Apple", "banana", "avocado", "cat", "Ant", "mango", "airplane"]
-filtered_list, total = analyze_words(words)
+    # 6. Return all four results
+    return filtered, total, most_expensive, count_div_by_100
 
-print("Original list:", words)
-print("Starting with 'a':", filtered_list)
-print("Total characters:", total)
+# Test 1: Normal dictionary
+products = {"Laptop": 45000, "Mouse": 400, "Keyboard": 800, "Monitor": 12000, "Pen": 50, "Headphones": 1500}
+filtered_dict, total_value, expensive, count_100 = analyze_products(products)
+
+print("Filtered:", filtered_dict)
+print("Total Value:", total_value)
+print("Most Expensive:", expensive)
+print("Count divisible by 100:", count_100)
+
+print("---")
+
+# Test 2: No products qualify
+products2 = {"Mouse": 400, "Pen": 50}
+filtered_dict2, total_value2, expensive2, count_1002 = analyze_products(products2)
+
+print("Filtered:", filtered_dict2)
+print("Total Value:", total_value2)
+print("Most Expensive:", expensive2)
+print("Count divisible by 100:", count_1002)
