@@ -1,1 +1,42 @@
+# Day #151 of #100 days of python practise using ai.. 
 
+# # # q1 programme - 
+
+def analyze_numbers(numbers):
+    # 1. Filter all even numbers
+    filtered = [num for num in numbers if num % 2 == 0]
+
+    # 2. Calculate their sum
+    total = sum(filtered)
+
+    # 3. Return filtered list and sum
+    return filtered, total
+
+# Test
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11]
+filtered_list, total_sum = analyze_numbers(numbers)
+
+print("Original list:", numbers)
+print("Even numbers:", filtered_list)
+print("Sum:", total_sum)
+
+
+# # # q2 programme - 
+
+def analyze_words(words):
+    # 1. Filter words containing more than 5 characters
+    filtered = [word for word in words if len(word) > 5]
+
+    # 2. Count the number of filtered words
+    count = len(filtered)
+
+    # 3. Return filtered list and count
+    return filtered, count
+
+# Test
+words = ["cat", "elephant", "python", "book", "programming", "hi", "computer"]
+filtered_list, total_count = analyze_words(words)
+
+print("Original list:", words)
+print("Words > 5 characters:", filtered_list)
+print("Count:", total_count)
