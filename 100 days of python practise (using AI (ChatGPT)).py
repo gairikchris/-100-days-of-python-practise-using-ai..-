@@ -10377,3 +10377,94 @@
 # print("Original list:", words)
 # print("Words > 5 characters:", filtered_list)
 # print("Count:", total_count)
+
+
+# Day #152 of #100 days of python practise using ai..  
+
+# # q1 programme - 
+
+def analyze_numbers(numbers):
+    # 1. Handle empty list
+    if not numbers:
+        return [], 0, 0
+
+    # 2. Filter numbers greater than 10
+    filtered = [num for num in numbers if num > 10]
+
+    # 3. Calculate sum of filtered numbers
+    total = sum(filtered)
+
+    # 4. Count how many filtered numbers are even
+    even_count = sum(1 for num in filtered if num % 2 == 0)
+
+    # 5. Return filtered list, sum, and even count
+    return filtered, total, even_count
+
+# Test 1: Normal list
+numbers = [5, 12, 8, 20, 15, 30, 9, 11]
+filtered_list, total_sum, even = analyze_numbers(numbers)
+
+print("Filtered:", filtered_list)
+print("Sum:", total_sum)
+print("Even count:", even)
+
+print("---")
+
+# Test 2: Empty list
+filtered_list2, total_sum2, even2 = analyze_numbers([])
+
+print("Filtered:", filtered_list2)
+print("Sum:", total_sum2)
+print("Even count:", even2)
+
+
+
+#  # q2 programme - 
+
+def analyze_students(students):
+    # 1. Handle empty dictionary
+    if not students:
+        return {}, 0, None
+
+    # 2. Filter students who scored 70 or above
+    filtered = {name: marks for name, marks in students.items() if marks >= 70}
+
+    # 3. Handle case where no student qualifies
+    if not filtered:
+        return {}, 0, None
+
+    # 4. Calculate average marks of qualifying students
+    average = sum(filtered.values()) / len(filtered)
+
+    # 5. Find student with the highest marks
+    topper = max(filtered, key=filtered.get)
+
+    # 6. Return filtered dictionary, average, and topper's name
+    return filtered, average, topper
+
+# Test 1: Normal dictionary
+students = {"Rahul": 85, "Priya": 65, "Amit": 92, "Sneha": 70, "Vikash": 55}
+filtered_dict, avg, topper_name = analyze_students(students)
+
+print("Filtered:", filtered_dict)
+print("Average:", avg)
+print("Topper:", topper_name)
+
+print("---")
+
+# Test 2: No student qualifies
+students2 = {"Rahul": 50, "Priya": 65}
+filtered_dict2, avg2, topper_name2 = analyze_students(students2)
+
+print("Filtered:", filtered_dict2)
+print("Average:", avg2)
+print("Topper:", topper_name2)
+
+print("---")
+
+# Test 3: Empty dictionary
+filtered_dict3, avg3, topper_name3 = analyze_students({})
+
+print("Filtered:", filtered_dict3)
+print("Average:", avg3)
+print("Topper:", topper_name3)
