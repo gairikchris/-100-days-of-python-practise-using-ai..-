@@ -1,0 +1,210 @@
+# Day #153 of #100 days of python practise using ai.. 
+
+# # # # q1 programme - 
+
+# def analyze_numbers(numbers):
+#     # Step 1: Filter numbers greater than 10
+#     filtered = [n for n in numbers if n > 10] if numbers else []
+    
+#     # Step 8: Handle empty list or cases where no numbers qualify
+#     if not filtered:
+#         return ([], [], 0, 0, None, None, 0.0, 0)
+    
+#     # Step 2: Separate filtered numbers into even and odd lists
+#     even_list = [n for n in filtered if n % 2 == 0]
+#     odd_list = [n for n in filtered if n % 2 != 0]
+    
+#     # Step 3: Calculate the sum of even and odd numbers separately
+#     sum_even = sum(even_list)
+#     sum_odd = sum(odd_list)
+    
+#     # Step 4: Find the largest and smallest number among filtered numbers
+#     largest = max(filtered)
+#     smallest = min(filtered)
+    
+#     # Step 5: Calculate the average of all filtered numbers
+#     average = sum(filtered) / len(filtered)
+    
+#     # Step 6: Count numbers divisible by both 3 and 5 (i.e., divisible by 15)
+#     count_div_15 = sum(1 for n in filtered if n % 3 == 0 and n % 5 == 0)
+    
+#     # Step 7: Return all results as a tuple
+#     return (even_list, odd_list, sum_even, sum_odd, largest, smallest, average, count_div_15)
+
+# # --- Example Usage & Testing ---
+# if __name__ == "__main__":
+#     # Test Case 1: Mixed numbers
+#     numbers_1 = [5, 12, 15, 8, 30, 22, 11, 7]
+#     result_1 = analyze_numbers(numbers_1)
+#     print("Result 1:", result_1)
+
+#     # Test Case 2: No numbers greater than 10
+#     numbers_2 = [2, 4, 6, 8, 10]
+#     result_2 = analyze_numbers(numbers_2)
+#     print("Result 2:", result_2)
+
+
+
+
+# # # # Q2 programme - 
+
+# def analyze_students(students):
+#     # Requirement 8: Handle an empty dictionary
+#     if not students:
+#         return {
+#             "qualifying_students": {},
+#             "high_performers": {},
+#             "mid_performers": {},
+#             "average_marks": 0.0,
+#             "highest_student": None,
+#             "lowest_student": None,
+#             "passed_count": 0,
+#             "failed_count": 0,
+#             "pass_percentage": 0.0
+#         }
+    
+#     total_students = len(students)
+    
+#     # Requirement 1: Filter students who scored at least 60 (passed)
+#     qualifying_students = {name: mark for name, mark in students.items() if mark >= 60}
+    
+#     # Requirement 2: Separate into 80+ and 60-79 dictionaries
+#     high_performers = {name: mark for name, mark in qualifying_students.items() if mark >= 80}
+#     mid_performers = {name: mark for name, mark in qualifying_students.items() if 60 <= mark < 80}
+    
+#     # Requirement 3: Calculate average marks of all qualifying students
+#     average_marks = sum(qualifying_students.values()) / len(qualifying_students) if qualifying_students else 0.0
+    
+#     # Requirement 4: Find the highest and lowest scoring students (overall)
+#     highest_name = max(students, key=students.get)
+#     lowest_name = min(students, key=students.get)
+#     highest_student = (highest_name, students[highest_name])
+#     lowest_student = (lowest_name, students[lowest_name])
+    
+#     # Requirement 5: Count total passed and failed
+#     passed_count = len(qualifying_students)
+#     failed_count = total_students - passed_count
+    
+#     # Requirement 6: Calculate percentage of students who passed
+#     pass_percentage = (passed_count / total_students) * 100
+    
+#     # Requirement 7: Return all results in a dictionary
+#     return {
+#         "qualifying_students": qualifying_students,
+#         "high_performers": high_performers,
+#         "mid_performers": mid_performers,
+#         "average_marks": average_marks,
+#         "highest_student": highest_student,
+#         "lowest_student": lowest_student,
+#         "passed_count": passed_count,
+#         "failed_count": failed_count,
+#         "pass_percentage": pass_percentage
+#     }
+
+# # --- Example Usage & Testing ---
+# if __name__ == "__main__":
+#     # Test Case 1: Standard dictionary with mixed marks
+#     students_data = {
+#         "Alex": 85,
+#         "John": 42,
+#         "Sarah": 93,
+#         "David": 67,
+#         "Emma": 29,
+#         "Chris": 76,
+#         "Sophia": 55
+#     }
+#     result = analyze_students(students_data)
+#     print("Test Result 1:")
+#     for k, v in result.items():
+#         print(f"  {k}: {v}")
+
+#     # Test Case 2: Nobody passes / empty dictionary edge cases
+#     fail_data = {"Bob": 35, "Alice": 48}
+#     print("\nTest Result 2 (Nobody passes):")
+#     print(analyze_students(fail_data))
+
+
+    
+    
+
+# # # # # q3 programme - 
+
+
+#     def analyze_words(words):
+#     # Requirement 9: Handle empty list edge case
+#     if not words:
+#         return {
+#             "filtered_words": [],
+#             "vowel_start_words": [],
+#             "consonant_end_words": [],
+#             "total_characters": 0,
+#             "longest_word": None,
+#             "shortest_word": None,
+#             "contains_a_count": 0,
+#             "average_length": 0.0
+#         }
+    
+#     # Requirement 1: Filter words containing more than 5 characters
+#     qualifying = [w for w in words if len(w) > 5]
+    
+#     # Requirement 9: Handle cases where no words qualify (> 5 characters)
+#     if not qualifying:
+#         return {
+#             "filtered_words": [],
+#             "vowel_start_words": [],
+#             "consonant_end_words": [],
+#             "total_characters": 0,
+#             "longest_word": None,
+#             "shortest_word": None,
+#             "contains_a_count": 0,
+#             "average_length": 0.0
+#         }
+    
+#     vowels = ('a', 'e', 'i', 'o', 'u')
+    
+#     # Requirement 2: Words starting with vowels (case-insensitive)
+#     vowel_start_words = [w for w in qualifying if w and w[0].lower() in vowels]
+    
+#     # Requirement 3: Words that end with a consonant (alphabetic check + not in vowels)
+#     consonant_end_words = [
+#         w for w in qualifying 
+#         if w and w[-1].isalpha() and w[-1].lower() not in vowels
+#     ]
+    
+#     # Requirement 4: Total number of characters across all qualifying words
+#     total_characters = sum(len(w) for w in qualifying)
+    
+#     # Requirement 5: Longest and shortest qualifying words
+#     longest_word = max(qualifying, key=len)
+#     shortest_word = min(qualifying, key=len)
+    
+#     # Requirement 6: Count qualifying words containing the letter 'a' (case-insensitive)
+#     contains_a_count = sum(1 for w in qualifying if 'a' in w.lower())
+    
+#     # Requirement 7: Calculate the average word length of qualifying words
+#     average_length = total_characters / len(qualifying)
+    
+#     # Requirement 8: Return all results as a dictionary
+#     return {
+#         "filtered_words": qualifying,
+#         "vowel_start_words": vowel_start_words,
+#         "consonant_end_words": consonant_end_words,
+#         "total_characters": total_characters,
+#         "longest_word": longest_word,
+#         "shortest_word": shortest_word,
+#         "contains_a_count": contains_a_count,
+#         "average_length": average_length
+#     }
+
+# # --- Example Usage & Testing ---
+# if __name__ == "__main__":
+#     words_list = [
+#         "python", "artificial", "AI", "programming", 
+#         "machine", "learning", "data", "science", 
+#         "technology", "computer", "code"
+#     ]
+    
+#     result = analyze_words(words_list)
+#     print("Word Analysis Results:")
+#     for key, value in result.items():
+#         print(f"  {key}: {value}")
