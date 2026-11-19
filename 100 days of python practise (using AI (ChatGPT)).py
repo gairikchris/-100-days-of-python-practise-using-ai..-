@@ -10681,3 +10681,39 @@
 #     print("Word Analysis Results:")
 #     for key, value in result.items():
 #         print(f"  {key}: {value}")
+
+
+# # Day #154 of #100 days of python practise using ai.. 
+
+# # q1 programme -
+
+# def analyze_numbers(numbers: list[int | float]) -> tuple[list[int | float], int | float, int]:
+#     """
+#     Filters numbers strictly greater than 15, calculates their sum,
+#     and counts how many of the filtered numbers are even.
+
+#     Returns:
+#         tuple: (filtered_list, total_sum, even_count)
+#     """
+#     filtered = [n for n in numbers if n > 15]
+#     total_sum = sum(filtered)
+#     even_count = sum(1 for n in filtered if n % 2 == 0)
+
+#     return filtered, total_sum, even_count
+
+
+# # q2 programme - 
+
+# def analyze_words(words: list[str]) -> tuple[list[str], int, str | None]:
+#     """
+#     Filters words with strictly more than 5 characters, calculates the total
+#     character count across those words, and finds the longest word.
+
+#     Returns:
+#         tuple: (filtered_words, total_chars, longest_word)
+#     """
+#     filtered = [w for w in words if len(w) > 5]
+#     total_chars = sum(len(w) for w in filtered)
+#     longest_word = max(filtered, key=len, default=None)
+
+#     return filtered, total_chars, longest_word
