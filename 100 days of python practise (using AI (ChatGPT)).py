@@ -10717,3 +10717,154 @@
 #     longest_word = max(filtered, key=len, default=None)
 
 #     return filtered, total_chars, longest_word
+
+
+# Day #155 of #100 days of python practise using ai.. 
+
+# # q1 programme -  
+
+
+# class Student:
+#     def __init__(self, name: str, roll_number: int, marks: list[float]):
+#         self.name = name
+#         self.roll_number = roll_number
+#         # Copy the list so external mutations to the caller's list don't corrupt internal state
+#         self.marks = list(marks) if marks is not None else []
+
+#     def calculate_average(self) -> float | None:
+#         """Return the average of marks, or None if no marks are present."""
+#         if not self.marks:
+#             return None
+#         return round(sum(self.marks) / len(self.marks), 2)
+
+#     def get_grade(self) -> str:
+#         """Determine the letter grade based on average marks."""
+#         avg = self.calculate_average()
+#         if avg is None:
+#             return "N/A"
+#         if avg >= 90:
+#             return "A"
+#         elif avg >= 75:
+#             return "B"
+#         elif avg >= 60:
+#             return "C"
+#         elif avg >= 40:
+#             return "D"
+#         else:
+#             return "F"
+
+#     def get_highest_mark(self) -> float | None:
+#         """Return the highest mark, or None if marks list is empty."""
+#         if not self.marks:
+#             return None
+#         return max(self.marks)
+
+#     def get_lowest_mark(self) -> float | None:
+#         """Return the lowest mark, or None if marks list is empty."""
+#         if not self.marks:
+#             return None
+#         return min(self.marks)
+
+#     def display_details(self) -> dict:
+#         """Return student details and computed metrics in a structured dictionary."""
+#         return {
+#             "name": self.name,
+#             "roll_number": self.roll_number,
+#             "marks": self.marks,
+#             "average": self.calculate_average(),
+#             "grade": self.get_grade(),
+#             "highest_mark": self.get_highest_mark(),
+#             "lowest_mark": self.get_lowest_mark(),
+#         }
+
+
+# # Test data
+# student = Student("Rahul", 101, [85, 92, 78, 88, 95])
+# print(student.display_details())
+
+# # Edge case test: empty marks list
+# empty_student = Student("Ananya", 102, [])
+# print(empty_student.display_details())
+
+
+# # q2 programme -  
+
+
+# from collections import Counter
+# import re
+
+
+# def analyze_file(filename: str) -> dict:
+#     """Analyze a text file and return line, word, character, and frequency metrics."""
+#     empty_result = {
+#         "total_lines": 0,
+#         "total_words": 0,
+#         "total_characters": 0,
+#         "longest_word": None,
+#         "shortest_word": None,
+#         "most_frequent_word": None,
+#         "word_frequency": {},
+#     }
+
+#     try:
+#         with open(filename, "r", encoding="utf-8") as file:
+#             content = file.read()
+#     except FileNotFoundError:
+#         return {"error": f"File not found: '{filename}'", **empty_result}
+
+#     # Handle empty or whitespace-only files
+#     if not content or not content.strip():
+#         return empty_result
+
+#     lines = content.splitlines()
+#     total_lines = len(lines)
+
+#     # Exclude spaces, tabs, and newline characters from character count
+#     total_characters = sum(1 for ch in content if not ch.isspace())
+
+#     # Extract alphanumeric word tokens for clean word-level analysis (ignores punctuation)
+#     words = re.findall(r"\b\w+\b", content)
+#     if not words:
+#         return {
+#             "total_lines": total_lines,
+#             "total_words": 0,
+#             "total_characters": total_characters,
+#             "longest_word": None,
+#             "shortest_word": None,
+#             "most_frequent_word": None,
+#             "word_frequency": {},
+#         }
+
+#     total_words = len(words)
+#     lower_words = [word.lower() for word in words]
+
+#     # Case-insensitive word frequency
+#     freq_counter = Counter(lower_words)
+#     most_frequent_word = freq_counter.most_common(1)[0][0]
+
+#     # Longest and shortest words (preserve first occurrence on ties)
+#     longest_word = max(words, key=len)
+#     shortest_word = min(words, key=len)
+
+#     return {
+#         "total_lines": total_lines,
+#         "total_words": total_words,
+#         "total_characters": total_characters,
+#         "longest_word": longest_word,
+#         "shortest_word": shortest_word,
+#         "most_frequent_word": most_frequent_word,
+#         "word_frequency": dict(freq_counter),
+#     }
+
+
+# if __name__ == "__main__":
+#     sample_text = (
+#         "Python is powerful.\n"
+#         "Python is interesting.\n"
+#         "Programming is fun.\n"
+#     )
+#     with open("sample.txt", "w", encoding="utf-8") as f:
+#         f.write(sample_text)
+
+#     result = analyze_file("sample.txt")
+#     print(result)
