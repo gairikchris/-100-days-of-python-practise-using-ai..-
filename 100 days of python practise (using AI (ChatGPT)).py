@@ -10868,3 +10868,216 @@
 
 #     result = analyze_file("sample.txt")
 #     print(result)
+
+
+
+# Day #156 of #100 days of python practise using ai.. 
+
+# # # # q1 programme -  
+
+# def _assign_grade(marks: int | float) -> str:
+#     """Assign a letter grade based on qualifying marks (>= 60)."""
+#     if marks >= 90:
+#         return "A"
+#     if marks >= 80:
+#         return "B"
+#     if marks >= 70:
+#         return "C"
+#     return "D"
+
+
+# def analyze_student_performance(students: dict[str, int | float]) -> dict:
+#     """
+#     Analyze student marks and return performance metrics.
+
+#     Handles empty dictionaries and cases where no student scores >= 60.
+#     """
+#     if not students:
+#         return {
+#             "qualifying_students": {},
+#             "average_qualifying_marks": None,
+#             "highest_scorer": None,
+#             "lowest_qualifying_scorer": None,
+#             "count_above_average": 0,
+#             "grades": {},
+#             "status": "No student data provided.",
+#         }
+
+#     # 1. Filter students who scored 60 or above
+#     qualifying = {
+#         name: marks for name, marks in students.items() if marks >= 60
+#     }
+
+#     # 3. Highest marks across all submitted students (or qualifying if needed;
+#     #    here computed over the full dataset as stated in requirement 3)
+#     highest_name, highest_marks = max(students.items(), key=lambda item: item[1])
+
+#     # Handle case where nobody qualifies (>= 60)
+#     if not qualifying:
+#         return {
+#             "qualifying_students": {},
+#             "average_qualifying_marks": None,
+#             "highest_scorer": {"name": highest_name, "marks": highest_marks},
+#             "lowest_qualifying_scorer": None,
+#             "count_above_average": 0,
+#             "grades": {},
+#             "status": "No students met the qualifying threshold (>= 60).",
+#         }
+
+#     # 2. Average marks of qualifying students
+#     average_marks = round(sum(qualifying.values()) / len(qualifying), 2)
+
+#     # 4. Lowest marks among qualifying students
+#     lowest_name, lowest_marks = min(qualifying.items(), key=lambda item: item[1])
+
+#     # 5. Count how many qualifying students scored strictly above the average
+#     above_avg_count = sum(
+#         1 for marks in qualifying.values() if marks > average_marks
+#     )
+
+#     # 6. Grade dictionary for qualifying students
+#     grades = {
+#         name: _assign_grade(marks) for name, marks in qualifying.items()
+#     }
+
+#     # 7. Return all results in a single dictionary
+#     return {
+#         "qualifying_students": qualifying,
+#         "average_qualifying_marks": average_marks,
+#         "highest_scorer": {"name": highest_name, "marks": highest_marks},
+#         "lowest_qualifying_scorer": {
+#             "name": lowest_name,
+#             "marks": lowest_marks,
+#         },
+#         "count_above_average": above_avg_count,
+#         "grades": grades,
+#     }
+
+
+# if __name__ == "__main__":
+#     sample_students = {
+#         "Alice": 85,
+#         "Bob": 42,
+#         "Charlie": 76,
+#         "David": 91,
+#         "Emma": 58,
+#         "Frank": 67,
+#     }
+
+#     report = analyze_student_performance(sample_students)
+#     for key, value in report.items():
+#         print(f"{key}: {value}")
+
+
+# # # # q2 programme - 
+
+# VOWELS = set("aeiouAEIOU")
+
+
+# def _count_vowels(word: str) -> int:
+#     """Count total vowels in a word."""
+#     return sum(1 for ch in word if ch in VOWELS)
+
+
+# def _starts_with_vowel(word: str) -> bool:
+#     """Check if a non-empty word begins with a vowel."""
+#     return bool(word) and word[0] in VOWELS
+
+
+# def _ends_with_consonant(word: str) -> bool:
+#     """Check if a non-empty word ends with an alphabetic consonant."""
+#     return bool(word) and word[-1].isalpha() and word[-1] not in VOWELS
+
+
+# def analyze_words(words: list[str], min_length: int = 5) -> dict:
+#     """
+#     Analyze a list of words after filtering for length greater than min_length.
+
+#     Handles empty lists and cases where no words exceed min_length.
+#     """
+#     if not words:
+#         return {
+#             "filtered_words": [],
+#             "total_characters": 0,
+#             "longest_word": None,
+#             "shortest_word": None,
+#             "starts_with_vowel_count": 0,
+#             "ends_with_consonant_count": 0,
+#             "words_with_a": [],
+#             "average_length": 0.0,
+#             "max_vowel_word": None,
+#             "status": "Input word list is empty.",
+#         }
+
+#     # 1. Filter words containing more than 5 characters
+#     filtered = [w for w in words if len(w) > min_length]
+
+#     if not filtered:
+#         return {
+#             "filtered_words": [],
+#             "total_characters": 0,
+#             "longest_word": None,
+#             "shortest_word": None,
+#             "starts_with_vowel_count": 0,
+#             "ends_with_consonant_count": 0,
+#             "words_with_a": [],
+#             "average_length": 0.0,
+#             "max_vowel_word": None,
+#             "status": f"No words found with more than {min_length} characters.",
+#         }
+
+#     # 2. Total characters in filtered words
+#     total_chars = sum(len(w) for w in filtered)
+
+#     # 3. Longest and shortest words (preserving first occurrence on ties)
+#     longest_word = max(filtered, key=len)
+#     shortest_word = min(filtered, key=len)
+
+#     # 4. Count of words starting with a vowel
+#     vowel_start_count = sum(1 for w in filtered if _starts_with_vowel(w))
+
+#     # 5. Count of words ending with a consonant
+#     consonant_end_count = sum(1 for w in filtered if _ends_with_consonant(w))
+
+#     # 6. All words containing 'a' or 'A'
+#     words_with_a = [w for w in filtered if "a" in w.lower()]
+
+#     # 7. Average word length of filtered words
+#     average_length = round(total_chars / len(filtered), 2)
+
+#     # 8. Word containing the maximum number of vowels
+#     max_vowel_word = max(filtered, key=_count_vowels)
+
+#     # 9. Return all results in a dictionary
+#     return {
+#         "filtered_words": filtered,
+#         "total_characters": total_chars,
+#         "longest_word": longest_word,
+#         "shortest_word": shortest_word,
+#         "starts_with_vowel_count": vowel_start_count,
+#         "ends_with_consonant_count": consonant_end_count,
+#         "words_with_a": words_with_a,
+#         "average_length": average_length,
+#         "max_vowel_word": max_vowel_word,
+#     }
+
+
+# if __name__ == "__main__":
+#     sample_words = [
+#         "Python",
+#         "Artificial",
+#         "Intelligence",
+#         "Machine",
+#         "Learning",
+#         "Programming",
+#         "Algorithm",
+#         "Data",
+#     ]
+
+#     result = analyze_words(sample_words)
+#     for k, v in result.items():
+#         print(f"{k}: {v}")
+
+
+
+
