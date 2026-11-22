@@ -1,1 +1,282 @@
+# Day #157 of #100 days of python practise using ai.. 
 
+# # q1 programme -  
+
+# from typing import Any
+
+
+# def _get_grade(avg: float) -> str:
+#     if avg >= 90:
+#         return "A"
+#     if avg >= 80:
+#         return "B"
+#     if avg >= 70:
+#         return "C"
+#     if avg >= 60:
+#         return "D"
+#     return "F"
+
+
+# def analyze_students(students: dict) -> dict[str, Any]:
+#     """Analyze student exam marks and return a structured summary report."""
+#     default_report: dict[str, Any] = {
+#         "averages": {},
+#         "passed_students": [],
+#         "grades": {},
+#         "top_student": None,
+#         "lowest_student": None,
+#         "class_average": None,
+#         "grade_counts": {"A": 0, "B": 0, "C": 0, "D": 0, "F": 0},
+#         "all_above_90": [],
+#         "invalid_entries": [],
+#     }
+
+#     if not isinstance(students, dict) or not students:
+#         return default_report
+
+#     averages: dict[str, float | None] = {}
+#     grades: dict[str, str | None] = {}
+#     grade_counts: dict[str, int] = {"A": 0, "B": 0, "C": 0, "D": 0, "F": 0}
+#     passed_students: list[str] = []
+#     all_above_90: list[str] = []
+#     invalid_entries: list[str] = []
+
+#     valid_averages: dict[str, float] = {}
+#     all_valid_marks: list[float] = []
+
+#     for name, marks in students.items():
+#         if not isinstance(name, str) or not name.strip():
+#             invalid_entries.append(repr(name))
+#             continue
+
+#         if not isinstance(marks, (list, tuple)):
+#             averages[name] = None
+#             grades[name] = None
+#             invalid_entries.append(name)
+#             continue
+
+#         if len(marks) == 0:
+#             averages[name] = None
+#             grades[name] = None
+#             continue
+
+#         # Validate that every element is a numeric type (excluding bool)
+#         if not all(isinstance(m, (int, float)) and not isinstance(m, bool) for m in marks):
+#             averages[name] = None
+#             grades[name] = None
+#             invalid_entries.append(name)
+#             continue
+
+#         numeric_marks = [float(m) for m in marks]
+#         avg = round(sum(numeric_marks) / len(numeric_marks), 2)
+#         grade = _get_grade(avg)
+
+#         averages[name] = avg
+#         grades[name] = grade
+#         grade_counts[grade] += 1
+#         valid_averages[name] = avg
+#         all_valid_marks.extend(numeric_marks)
+
+#         if avg >= 60:
+#             passed_students.append(name)
+
+#         if all(m > 90 for m in numeric_marks):
+#             all_above_90.append(name)
+
+#     top_student = max(valid_averages, key=valid_averages.get) if valid_averages else None
+#     lowest_student = min(valid_averages, key=valid_averages.get) if valid_averages else None
+#     class_average = (
+#         round(sum(all_valid_marks) / len(all_valid_marks), 2) if all_valid_marks else None
+#     )
+
+#     return {
+#         "averages": averages,
+#         "passed_students": passed_students,
+#         "grades": grades,
+#         "top_student": top_student,
+#         "lowest_student": lowest_student,
+#         "class_average": class_average,
+#         "grade_counts": grade_counts,
+#         "all_above_90": all_above_90,
+#         "invalid_entries": invalid_entries,
+#     }
+
+
+# if __name__ == "__main__":
+#     sample_students = {
+#         "Alice": [85, 90, 78, 92],
+#         "Bob": [55, 60, 48, 65],
+#         "Charlie": [95, 88, 91, 97],
+#         "David": [70, 75, 80, 72],
+#         "Eve": [],
+#     }
+
+#     from pprint import pprint
+
+#     pprint(analyze_students(sample_students))
+
+
+
+# # q2 programme -  
+
+# from copy import deepcopy
+# from typing import Any
+
+
+# def _is_number(value: Any) -> bool:
+#     return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
+# def manage_inventory(inventory: dict, transactions: list) -> dict[str, Any]:
+#     """Process inventory transactions and return updated stock, financials, and history."""
+#     updated_inventory: dict[str, dict[str, Any]] = {}
+#     invalid_inventory_items: list[str] = []
+
+#     if isinstance(inventory, dict):
+#         for product, details in inventory.items():
+#             if not isinstance(product, str) or not product.strip() or not isinstance(details, dict):
+#                 invalid_inventory_items.append(repr(product))
+#                 continue
+
+#             price = details.get("price")
+#             stock = details.get("stock")
+
+#             if not _is_number(price) or price < 0 or not _is_number(stock) or stock < 0:
+#                 invalid_inventory_items.append(product)
+#                 continue
+
+#             updated_inventory[product] = {
+#                 "price": float(price),
+#                 "stock": int(stock) if isinstance(stock, int) and not isinstance(stock, bool) else stock,
+#             }
+
+#     total_revenue = 0.0
+#     total_expenditure = 0.0
+#     transaction_history: list[dict[str, Any]] = []
+
+#     if isinstance(transactions, list):
+#         for idx, tx in enumerate(transactions):
+#             record: dict[str, Any] = {
+#                 "index": idx,
+#                 "transaction": deepcopy(tx) if isinstance(tx, dict) else tx,
+#                 "status": "rejected",
+#                 "reason": None,
+#                 "amount": 0.0,
+#             }
+
+#             if not isinstance(tx, dict):
+#                 record["reason"] = "Transaction must be a dictionary"
+#                 transaction_history.append(record)
+#                 continue
+
+#             product = tx.get("product")
+#             tx_type = tx.get("type")
+#             quantity = tx.get("quantity")
+
+#             if not isinstance(product, str) or product not in updated_inventory:
+#                 record["reason"] = f"Unknown or nonexistent product: {product!r}"
+#                 transaction_history.append(record)
+#                 continue
+
+#             if tx_type not in ("sale", "purchase"):
+#                 record["reason"] = f"Invalid transaction type: {tx_type!r}"
+#                 transaction_history.append(record)
+#                 continue
+
+#             if not _is_number(quantity) or quantity <= 0:
+#                 record["reason"] = f"Quantity must be a positive number, got {quantity!r}"
+#                 transaction_history.append(record)
+#                 continue
+
+#             # Ensure integer quantity for unit stock counts when whole numbers are passed
+#             qty = int(quantity) if isinstance(quantity, int) or (isinstance(quantity, float) and quantity.is_integer()) else quantity
+#             unit_price = updated_inventory[product]["price"]
+#             current_stock = updated_inventory[product]["stock"]
+
+#             if tx_type == "sale":
+#                 if current_stock < qty:
+#                     record["reason"] = (
+#                         f"Insufficient stock for {product}: requested {qty}, available {current_stock}"
+#                     )
+#                     transaction_history.append(record)
+#                     continue
+
+#                 amount = round(unit_price * qty, 2)
+#                 updated_inventory[product]["stock"] = current_stock - qty
+#                 total_revenue = round(total_revenue + amount, 2)
+#                 record["status"] = "accepted"
+#                 record["amount"] = amount
+#                 record["remaining_stock"] = updated_inventory[product]["stock"]
+#                 transaction_history.append(record)
+
+#             elif tx_type == "purchase":
+#                 amount = round(unit_price * qty, 2)
+#                 updated_inventory[product]["stock"] = current_stock + qty
+#                 total_expenditure = round(total_expenditure + amount, 2)
+#                 record["status"] = "accepted"
+#                 record["amount"] = amount
+#                 record["remaining_stock"] = updated_inventory[product]["stock"]
+#                 transaction_history.append(record)
+
+#     low_stock_products = [
+#         product
+#         for product, details in updated_inventory.items()
+#         if details["stock"] < 10
+#     ]
+
+#     highest_stock_product = (
+#         max(updated_inventory, key=lambda p: updated_inventory[p]["stock"])
+#         if updated_inventory
+#         else None
+#     )
+
+#     total_inventory_value = round(
+#         sum(details["price"] * details["stock"] for details in updated_inventory.values()),
+#         2,
+#     )
+
+#     accepted_count = sum(1 for item in transaction_history if item["status"] == "accepted")
+#     rejected_count = sum(1 for item in transaction_history if item["status"] == "rejected")
+
+#     return {
+#         "inventory": updated_inventory,
+#         "financials": {
+#             "total_revenue": total_revenue,
+#             "total_expenditure": total_expenditure,
+#             "net_cash_flow": round(total_revenue - total_expenditure, 2),
+#             "total_inventory_value": total_inventory_value,
+#         },
+#         "stock_insights": {
+#             "low_stock_below_10": low_stock_products,
+#             "highest_stock_product": highest_stock_product,
+#         },
+#         "transaction_summary": {
+#             "total_processed": len(transaction_history),
+#             "accepted": accepted_count,
+#             "rejected": rejected_count,
+#         },
+#         "transaction_history": transaction_history,
+#         "invalid_inventory_items": invalid_inventory_items,
+#     }
+
+
+# if __name__ == "__main__":
+#     sample_inventory = {
+#         "Laptop": {"price": 55000, "stock": 10},
+#         "Mouse": {"price": 800, "stock": 50},
+#         "Keyboard": {"price": 1500, "stock": 30},
+#         "Monitor": {"price": 12000, "stock": 15},
+#     }
+
+#     sample_transactions = [
+#         {"product": "Laptop", "type": "sale", "quantity": 2},
+#         {"product": "Mouse", "type": "purchase", "quantity": 20},
+#         {"product": "Keyboard", "type": "sale", "quantity": 5},
+#         {"product": "Monitor", "type": "sale", "quantity": 3},
+#         {"product": "Laptop", "type": "purchase", "quantity": 5},
+#         {"product": "Mouse", "type": "sale", "quantity": 10},
+#     ]
+
+#     from pprint import pprint
+
+#     pprint(manage_inventory(sample_inventory, sample_transactions))
