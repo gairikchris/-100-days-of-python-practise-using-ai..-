@@ -11362,3 +11362,179 @@
 
 #     pprint(manage_inventory(sample_inventory, sample_transactions))
 
+
+# Day #157 of #100 days of python practise using ai.. 
+
+# # q1 programme -  
+
+# FILENAME = "students.txt"
+
+
+# def add_student(name: str, marks) -> bool:
+#     """Append a validated student record (Name,Marks) to the file."""
+#     clean_name = name.strip()
+#     if not clean_name:
+#         print("Error: Student name cannot be empty.")
+#         return False
+
+#     try:
+#         numeric_marks = float(marks)
+#         if numeric_marks < 0 or numeric_marks > 100:
+#             raise ValueError("Marks must be between 0 and 100.")
+#     except (ValueError, TypeError) as exc:
+#         print(f"Invalid marks for '{clean_name}' ({marks!r}): {exc}")
+#         return False
+
+#     try:
+#         with open(FILENAME, mode="a", encoding="utf-8") as file:
+#             file.write(f"{clean_name},{numeric_marks}\n")
+#         print(f"Added record: {clean_name} -> {numeric_marks}")
+#         return True
+#     except OSError as exc:
+#         print(f"File error while writing to '{FILENAME}': {exc}")
+#         return False
+
+
+# def _parse_records():
+#     """Read valid (name, marks) tuples from the file, handling missing/empty/corrupt lines."""
+#     records = []
+#     try:
+#         with open(FILENAME, mode="r", encoding="utf-8") as file:
+#             for line_num, raw_line in enumerate(file, start=1):
+#                 line = raw_line.strip()
+#                 if not line:
+#                     continue  # Skip blank lines safely
+
+#                 parts = line.rsplit(",", 1)
+#                 if len(parts) != 2:
+#                     print(f"Warning: Skipping malformed line {line_num}: {line!r}")
+#                     continue
+
+#                 student_name, raw_marks = parts[0].strip(), parts[1].strip()
+#                 try:
+#                     marks = float(raw_marks)
+#                     if marks < 0 or marks > 100:
+#                         raise ValueError("Marks out of range (0-100).")
+#                     records.append((student_name, marks))
+#                 except ValueError as exc:
+#                     print(
+#                         f"Warning: Skipping invalid marks on line {line_num} "
+#                         f"({student_name}: {raw_marks!r}) -> {exc}"
+#                     )
+#     except FileNotFoundError:
+#         print(f"Error: '{FILENAME}' was not found.")
+#         return None
+#     except OSError as exc:
+#         print(f"Error reading '{FILENAME}': {exc}")
+#         return None
+
+#     return records
+
+
+# def read_students() -> list:
+#     """Read and display all valid student records."""
+#     records = _parse_records()
+#     if records is None:
+#         return []
+
+#     if not records:
+#         print("No student records found (file is empty or has no valid entries).")
+#         return []
+
+#     print("\n--- Student Records ---")
+#     for idx, (name, marks) in enumerate(records, start=1):
+#         print(f"{idx}. {name} - {marks}")
+#     print("-----------------------")
+#     return records
+
+
+# def calculate_average() -> float:
+#     """Calculate and display the average marks across all valid student records."""
+#     records = _parse_records()
+#     if records is None:
+#         return 0.0
+
+#     if not records:
+#         print("Cannot calculate average: no valid student records available.")
+#         return 0.0
+
+#     total = sum(marks for _, marks in records)
+#     average = total / len(records)
+#     print(f"Average marks ({len(records)} students): {average:.2f}")
+#     return average
+
+
+# if __name__ == "__main__":
+#     # Example usage
+#     add_student("Aarav Sharma", 88.5)
+#     add_student("Priya Nair", 92)
+#     add_student("Rohan Das", "invalid")   # Handled gracefully via ValueError
+#     add_student("Meera Sen", 105)        # Handled gracefully via out-of-range check
+
+#     read_students()
+#     calculate_average()
+
+
+
+#     # q2 programme - 
+
+
+#     import functools
+# import time
+
+
+# def execution_logger(func):
+#     """Decorator that tracks call count, logs function name and execution time,
+#     preserves metadata, supports *args and **kwargs, and returns the original result."""
+#     call_count = 0
+
+#     @functools.wraps(func)
+#     def wrapper(*args, **kwargs):
+#         nonlocal call_count
+#         call_count += 1
+#         current_call = call_count
+
+#         start_time = time.perf_counter()
+#         result = func(*args, **kwargs)
+#         end_time = time.perf_counter()
+
+#         elapsed_ms = (end_time - start_time) * 1000
+#         print(
+#             f"[Execution Logger] Function: '{func.__name__}' | "
+#             f"Call #{current_call} | Time: {elapsed_ms:.4f} ms"
+#         )
+#         return result
+
+#     # Optional helper attribute to inspect call count externally if needed
+#     wrapper.get_call_count = lambda: call_count
+#     return wrapper
+
+
+# @execution_logger
+# def compute_sum(n: int, multiplier: int = 1) -> int:
+#     """Return the sum of integers from 1 to n multiplied by a factor."""
+#     total = sum(range(1, n + 1))
+#     return total * multiplier
+
+
+# @execution_logger
+# def format_greeting(name: str, *, punctuation: str = "!") -> str:
+#     """Format a friendly greeting message."""
+#     time.sleep(0.01)  # Simulated work
+#     return f"Hello, {name}{punctuation}"
+
+
+# if __name__ == "__main__":
+#     # Function 1 calls (positional & keyword arguments)
+#     res1 = compute_sum(1000)
+#     res2 = compute_sum(5000, multiplier=2)
+#     print(f"Results from compute_sum: {res1}, {res2}\n")
+
+#     # Function 2 calls
+#     msg1 = format_greeting("Aarav")
+#     msg2 = format_greeting("Meera", punctuation=".")
+#     print(f"Results from format_greeting: {msg1} | {msg2}\n")
+
+#     # Verify preserved function metadata
+#     print(f"Preserved name: {compute_sum.__name__}")
+#     print(f"Preserved docstring: {compute_sum.__doc__}")
