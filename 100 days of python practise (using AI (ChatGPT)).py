@@ -11538,3 +11538,112 @@
 #     # Verify preserved function metadata
 #     print(f"Preserved name: {compute_sum.__name__}")
 #     print(f"Preserved docstring: {compute_sum.__doc__}")
+
+
+
+# # Day #158 of #100 days of python practise using ai.. 
+
+# # q1 programme - 
+
+
+
+# def analyze_students(students: dict[str, float | int]) -> dict:
+#     """Analyze student marks and return summary metrics.
+
+#     Args:
+#         students: Mapping of student names to numeric marks.
+
+#     Returns:
+#         Dictionary containing:
+#             - "above_75": list of student names scoring strictly above 75
+#             - "average_marks": average marks across all students (0.0 if empty)
+#             - "top_student": name of student with highest marks (None if empty)
+#             - "highest_marks": highest mark value (None if empty)
+#             - "passed_count": count of students with marks >= 40
+#     """
+#     if not students:
+#         return {
+#             "above_75": [],
+#             "average_marks": 0.0,
+#             "top_student": None,
+#             "highest_marks": None,
+#             "passed_count": 0,
+#         }
+
+#     above_75 = [name for name, marks in students.items() if marks > 75]
+#     average_marks = sum(students.values()) / len(students)
+#     top_student = max(students, key=students.get)
+#     highest_marks = students[top_student]
+#     passed_count = sum(1 for marks in students.values() if marks >= 40)
+
+#     return {
+#         "above_75": above_75,
+#         "average_marks": round(average_marks, 2),
+#         "top_student": top_student,
+#         "highest_marks": highest_marks,
+#         "passed_count": passed_count,
+#     }
+
+
+# # Example usage
+# if __name__ == "__main__":
+#     sample_students = {
+#         "Aarav": 88,
+#         "Diya": 75,
+#         "Rohan": 92,
+#         "Meera": 38,
+#         "Kabir": 40,
+#     }
+#     result = analyze_students(sample_students)
+#     for key, value in result.items():
+#         print(f"{key}: {value}")
+
+
+
+
+# # q2 programme - 
+
+
+
+# def analyze_words(words: list[str]) -> dict:
+#     """Analyze a list of words and return summary metrics.
+
+#     Args:
+#         words: List of strings to analyze.
+
+#     Returns:
+#         Dictionary containing:
+#             - "longer_than_5": list of words with strictly more than 5 characters
+#             - "vowel_start_count": count of words starting with a vowel (a, e, i, o, u)
+#             - "longest_word": longest word in the list (None if empty)
+#             - "total_characters": total character count across all words
+#     """
+#     vowels = ("a", "e", "i", "o", "u")
+
+#     if not words:
+#         return {
+#             "longer_than_5": [],
+#             "vowel_start_count": 0,
+#             "longest_word": None,
+#             "total_characters": 0,
+#         }
+
+#     longer_than_5 = [word for word in words if len(word) > 5]
+#     vowel_start_count = sum(1 for word in words if word and word[0].lower() in vowels)
+#     longest_word = max(words, key=len)
+#     total_characters = sum(len(word) for word in words)
+
+#     return {
+#         "longer_than_5": longer_than_5,
+#         "vowel_start_count": vowel_start_count,
+#         "longest_word": longest_word,
+#         "total_characters": total_characters,
+#     }
+
+
+# # Example usage
+# if __name__ == "__main__":
+#     sample_words = ["apple", "elephant", "cat", "umbrella", "sky", "algorithm"]
+#     result = analyze_words(sample_words)
+#     for key, value in result.items():
+#         print(f"{key}: {value}")
