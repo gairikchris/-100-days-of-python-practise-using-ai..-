@@ -11647,3 +11647,126 @@
 #     result = analyze_words(sample_words)
 #     for key, value in result.items():
 #         print(f"{key}: {value}")
+
+
+# Day #159 of #100 days of python practise using ai.. 
+
+# # q1 programme - 
+
+# def analyze_employees(employees: dict[str, float]) -> dict:
+#     """Analyze employee salaries and return a summary dictionary."""
+#     if not employees:
+#         return {
+#             "above_50k": [],
+#             "below_25k": [],
+#             "average_salary": None,
+#             "highest_paid": None,
+#             "lowest_paid": None,
+#             "between_30k_and_60k_count": 0,
+#         }
+
+#     above_50k = [name for name, salary in employees.items() if salary > 50000]
+#     below_25k = [name for name, salary in employees.items() if salary < 25000]
+
+#     total_salary = sum(employees.values())
+#     average_salary = total_salary / len(employees)
+
+#     highest_name, highest_salary = max(employees.items(), key=lambda item: item[1])
+#     lowest_name, lowest_salary = min(employees.items(), key=lambda item: item[1])
+
+#     between_30k_and_60k_count = sum(
+#         1 for salary in employees.values() if 30000 <= salary <= 60000
+#     )
+
+#     return {
+#         "above_50k": above_50k,
+#         "below_25k": below_25k,
+#         "average_salary": round(average_salary, 2),
+#         "highest_paid": {"name": highest_name, "salary": highest_salary},
+#         "lowest_paid": {"name": lowest_name, "salary": lowest_salary},
+#         "between_30k_and_60k_count": between_30k_and_60k_count,
+#     }
+
+
+# if __name__ == "__main__":
+#     sample_employees = {
+#         "Aarav": 72000.0,
+#         "Diya": 22000.0,
+#         "Rohan": 45000.0,
+#         "Meera": 60000.0,
+#         "Kabir": 30000.0,
+#     }
+
+#     print("Sample Analysis:")
+#     for key, value in analyze_employees(sample_employees).items():
+#         print(f"  {key}: {value}")
+
+#     print("\nEmpty Dictionary Analysis:")
+#     print(f"  {analyze_employees({})}")
+
+
+# # q2 programme - 
+
+
+# import re
+# from collections import Counter
+
+
+# def analyze_text(text: str) -> dict:
+#     """Analyze text and return word, character, and vowel statistics."""
+#     words = re.findall(r"[A-Za-z0-9']+", text)
+
+#     if not text or not words:
+#         return {
+#             "total_words": 0,
+#             "chars_excluding_spaces": 0,
+#             "unique_words": [],
+#             "most_frequent_word": None,
+#             "words_longer_than_5_chars": [],
+#             "vowel_count": 0,
+#             "average_word_length": 0.0,
+#         }
+
+#     total_words = len(words)
+#     chars_excluding_spaces = sum(1 for ch in text if not ch.isspace())
+
+#     lower_words = [word.lower() for word in words]
+#     freq = Counter(lower_words)
+
+#     unique_words = sorted(freq.keys())
+#     most_frequent_word, _ = freq.most_common(1)[0]
+
+#     words_longer_than_5_chars = sorted(
+#         {word for word in lower_words if len(word) > 5}
+#     )
+
+#     vowels = set("aeiouAEIOU")
+#     vowel_count = sum(1 for ch in text if ch in vowels)
+
+#     average_word_length = round(
+#         sum(len(word) for word in words) / total_words, 2
+#     )
+
+#     return {
+#         "total_words": total_words,
+#         "chars_excluding_spaces": chars_excluding_spaces,
+#         "unique_words": unique_words,
+#         "most_frequent_word": most_frequent_word,
+#         "words_longer_than_5_chars": words_longer_than_5_chars,
+#         "vowel_count": vowel_count,
+#         "average_word_length": average_word_length,
+#     }
+
+
+# if __name__ == "__main__":
+#     sample_text = (
+#         "Python makes text processing clean, readable, and expressive. "
+#         "Clean code helps engineers solve complex problems faster."
+#     )
+
+#     print("Sample Analysis:")
+#     for key, value in analyze_text(sample_text).items():
+#         print(f"  {key}: {value}")
+
+#     print("\nEmpty String Analysis:")
+#     print(f"  {analyze_text('')}")
