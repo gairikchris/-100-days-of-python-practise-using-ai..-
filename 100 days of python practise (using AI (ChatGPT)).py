@@ -11770,3 +11770,110 @@
 
 #     print("\nEmpty String Analysis:")
 #     print(f"  {analyze_text('')}")
+
+
+
+# Day #160 of #100 days of python practise using ai.. 
+
+# # q1 programme - 
+
+# from collections import Counter
+
+
+# def analyze_words(words: list[str]) -> dict:
+#     """Analyze word frequencies case-insensitively.
+
+#     Returns a dictionary containing:
+#     - total_words: total count of words in the list
+#     - repeated_words: dict of words (lowercase) appearing more than once
+#     - most_frequent_word: word with the highest count (None if empty)
+#     - frequencies: full case-insensitive frequency map (useful reference)
+#     """
+#     if not words:
+#         return {
+#             "total_words": 0,
+#             "repeated_words": {},
+#             "most_frequent_word": None,
+#             "frequencies": {},
+#         }
+
+#     normalized = [w.lower() for w in words]
+#     counts = Counter(normalized)
+
+#     repeated_words = {
+#         word: count for word, count in counts.items() if count > 1
+#     }
+#     most_frequent_word = max(counts, key=counts.get)
+
+#     return {
+#         "total_words": len(words),
+#         "repeated_words": repeated_words,
+#         "most_frequent_word": most_frequent_word,
+#         "frequencies": dict(counts),
+#     }
+
+
+# # Example usage
+# if __name__ == "__main__":
+#     sample = ["Python", "code", "python", "Data", "Code", "PYTHON", "list"]
+#     print(analyze_words(sample))
+#     print(analyze_words([]))
+
+
+
+# # q2 programme - 
+
+
+
+# def analyze_numbers(numbers: list[int]) -> dict:
+#     """Analyze a list of integers across sign, parity, sums, and bounds.
+
+#     Returns a dictionary containing:
+#     - positive: list of numbers greater than 0
+#     - negative: list of numbers less than 0
+#     - zeros: list of 0s
+#     - positive_sum: sum of positive numbers
+#     - negative_sum: sum of negative numbers
+#     - even_count: count of even numbers (0 is even)
+#     - odd_count: count of odd numbers
+#     - largest: maximum value in the list (None if empty)
+#     - smallest: minimum value in the list (None if empty)
+#     """
+#     if not numbers:
+#         return {
+#             "positive": [],
+#             "negative": [],
+#             "zeros": [],
+#             "positive_sum": 0,
+#             "negative_sum": 0,
+#             "even_count": 0,
+#             "odd_count": 0,
+#             "largest": None,
+#             "smallest": None,
+#         }
+
+#     positive = [n for n in numbers if n > 0]
+#     negative = [n for n in numbers if n < 0]
+#     zeros = [n for n in numbers if n == 0]
+
+#     even_count = sum(1 for n in numbers if n % 2 == 0)
+#     odd_count = len(numbers) - even_count
+
+#     return {
+#         "positive": positive,
+#         "negative": negative,
+#         "zeros": zeros,
+#         "positive_sum": sum(positive),
+#         "negative_sum": sum(negative),
+#         "even_count": even_count,
+#         "odd_count": odd_count,
+#         "largest": max(numbers),
+#         "smallest": min(numbers),
+#     }
+
+
+# # Example usage
+# if __name__ == "__main__":
+#     sample = [10, -4, 0, 7, -12, 3, 0, 8]
+#     print(analyze_numbers(sample))
+#     print(analyze_numbers([]))
