@@ -11877,3 +11877,119 @@
 #     sample = [10, -4, 0, 7, -12, 3, 0, 8]
 #     print(analyze_numbers(sample))
 #     print(analyze_numbers([]))
+
+
+
+
+# Day #161 of #100 days of python practise using ai.. 
+
+# # q1 programme - 
+
+# from typing import Any
+
+
+# def analyze_students(students: dict[str, list[int | float]]) -> dict[str, Any]:
+#     """Analyze academic performance from a mapping of student names to marks."""
+#     if not students:
+#         return {
+#             "total_students": 0,
+#             "averages": {},
+#             "above_75": [],
+#             "below_40": [],
+#             "highest_scorer": None,
+#             "lowest_scorer": None,
+#             "class_average": None,
+#             "passed_count": 0,
+#         }
+
+#     averages: dict[str, float] = {}
+#     for name, marks in students.items():
+#         if not marks:
+#             raise ValueError(f"Student '{name}' has no marks recorded.")
+#         averages[name] = round(sum(marks) / len(marks), 2)
+
+#     above_75 = [name for name, avg in averages.items() if avg > 75]
+#     below_40 = [name for name, avg in averages.items() if avg < 40]
+#     passed_count = sum(1 for avg in averages.values() if avg >= 40)
+
+#     highest_name = max(averages, key=lambda k: averages[k])
+#     lowest_name = min(averages, key=lambda k: averages[k])
+#     class_average = round(sum(averages.values()) / len(averages), 2)
+
+#     return {
+#         "total_students": len(students),
+#         "averages": averages,
+#         "above_75": above_75,
+#         "below_40": below_40,
+#         "highest_scorer": {"name": highest_name, "average": averages[highest_name]},
+#         "lowest_scorer": {"name": lowest_name, "average": averages[lowest_name]},
+#         "class_average": class_average,
+#         "passed_count": passed_count,
+#     }
+
+
+
+# # q2 programme - 
+
+
+# from typing import Any
+
+
+# def manage_inventory(inventory: dict[str, dict[str, Any]]) -> dict[str, Any]:
+#     """Analyze store inventory from a mapping of product names to item details."""
+#     if not inventory:
+#         return {
+#             "total_products": 0,
+#             "stock_values": {},
+#             "low_stock": [],
+#             "high_value_stock": [],
+#             "total_inventory_value": 0.0,
+#             "most_expensive_product": None,
+#             "highest_quantity_product": None,
+#             "by_category": {},
+#         }
+
+#     stock_values: dict[str, float] = {}
+#     low_stock: list[str] = []
+#     high_value_stock: list[str] = []
+#     by_category: dict[str, list[str]] = {}
+
+#     for product, details in inventory.items():
+#         price = details["price"]
+#         quantity = details["quantity"]
+#         category = details["category"]
+
+#         if price < 0 or quantity < 0:
+#             raise ValueError(f"Invalid negative price or quantity for '{product}'.")
+
+#         value = round(price * quantity, 2)
+#         stock_values[product] = value
+
+#         if quantity < 5:
+#             low_stock.append(product)
+
+#         if value > 5000:
+#             high_value_stock.append(product)
+
+#         by_category.setdefault(category, []).append(product)
+
+#     most_expensive = max(inventory, key=lambda item: inventory[item]["price"])
+#     highest_qty = max(inventory, key=lambda item: inventory[item]["quantity"])
+#     total_inventory_value = round(sum(stock_values.values()), 2)
+
+#     return {
+#         "total_products": len(inventory),
+#         "stock_values": stock_values,
+#         "low_stock": low_stock,
+#         "high_value_stock": high_value_stock,
+#         "total_inventory_value": total_inventory_value,
+#         "most_expensive_product": {
+#             "name": most_expensive,
+#             "price": inventory[most_expensive]["price"],
+#         },
+#         "highest_quantity_product": {
+#             "name": highest_qty,
+#             "quantity": inventory[highest_qty]["quantity"],
+#         },
+#         "by_category": by_category,
+#     }
