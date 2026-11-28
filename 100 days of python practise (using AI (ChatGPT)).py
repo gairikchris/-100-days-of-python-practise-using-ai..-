@@ -11993,3 +11993,84 @@
 #         },
 #         "by_category": by_category,
 #     }
+
+
+
+
+
+
+Day #162 of #100 days of python practise using ai..
+
+# q1 programme - 
+
+def analyze_marks(marks: list[int | float]) -> dict[str, int | float | None]:
+    """Analyze a list of student marks and return summary statistics."""
+    if not marks:
+        return {
+            "highest": None,
+            "lowest": None,
+            "average": None,
+            "above_75": 0,
+            "failed": 0,
+        }
+
+    highest = max(marks)
+    lowest = min(marks)
+    average = sum(marks) / len(marks)
+    above_75 = sum(1 for mark in marks if mark > 75)
+    failed = sum(1 for mark in marks if mark < 40)
+
+    return {
+        "highest": highest,
+        "lowest": lowest,
+        "average": average,
+        "above_75": above_75,
+        "failed": failed,
+    }
+
+
+if __name__ == "__main__":
+    sample_marks = [88, 75, 40, 32, 95.5, 58]
+    print(analyze_marks(sample_marks))
+    print(analyze_marks([]))
+
+
+
+
+# q2 programme - 
+
+def analyze_words(words: list[str]) -> dict[str, object]:
+    """Analyze a list of words and return summary statistics."""
+    if not words:
+        return {
+            "longer_than_5": [],
+            "longest_word": None,
+            "shortest_word": None,
+            "vowel_start_count": 0,
+            "total_characters": 0,
+            "average_length": None,
+        }
+
+    vowels = set("aeiouAEIOU")
+
+    longer_than_5 = [word for word in words if len(word) > 5]
+    longest_word = max(words, key=len)
+    shortest_word = min(words, key=len)
+    vowel_start_count = sum(1 for word in words if word and word[0] in vowels)
+    total_characters = sum(len(word) for word in words)
+    average_length = total_characters / len(words)
+
+    return {
+        "longer_than_5": longer_than_5,
+        "longest_word": longest_word,
+        "shortest_word": shortest_word,
+        "vowel_start_count": vowel_start_count,
+        "total_characters": total_characters,
+        "average_length": average_length,
+    }
+
+
+if __name__ == "__main__":
+    sample_words = ["apple", "banana", "sky", "elephant", "umbra", "hi"]
+    print(analyze_words(sample_words))
+    print(analyze_words([]))
